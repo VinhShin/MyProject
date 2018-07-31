@@ -1,0 +1,1 @@
+Sử dụng những thư viện đặc biệt có khả năng api 2.3 sẽ ko sử dụng đx. như time picker
