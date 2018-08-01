@@ -37,6 +37,12 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     int checkTime = 0;
     int hesoWait = 1;
     int hesoConnect = 1;
+    int TIME_START = 0;
+    int TIME_END = 0;
+
+    Date date; // given date
+    Calendar calendar;
+
     public MyAsyncTask(Context contextParent) {
         this.contextParent = contextParent;
     }
@@ -47,7 +53,9 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
 
         hesoWait = 1;
         hesoConnect = 1;
-
+        date = new Date();
+        calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
         sharedPreferences = contextParent.getSharedPreferences("YongQuan",Context.MODE_PRIVATE);
         String str = sharedPreferences.getString("contact","");
         MyService.listContact = Global_Function.convertStringToArray(str);
@@ -56,58 +64,60 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
         }
         Global_Variable.INDEX_PHONE = sharedPreferences.getInt(Global_Variable.INDEX_PHONE_STR,0);
         Global_Variable.TIME_CONNECT = sharedPreferences.getInt(Global_Variable.TIME_CONNECT_STR,0);
+        Global_Variable.TIME_WAITING = sharedPreferences.getInt(Global_Variable.TIME_WAITING_STR,0);
         Global_Variable.TIME_CONNECT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_CONNECT_MUNITE_STR,true);
         Global_Variable.TIME_WAIT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_WAIT_MUNITE_STR,true);
-        Global_Variable.TIME_START = sharedPreferences.getInt(Global_Variable.TIME_START_STR,0);
-        Global_Variable.TIME_END = sharedPreferences.getInt(Global_Variable.TIME_END_STR,0);
-        Global_Variable.TIME_SEND_SMS = sharedPreferences.getInt(Global_Variable.TIME_SEND_SMS_STR,1);
-        Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR,1);
-        Global_Variable.WAS_SEND_SMS = sharedPreferences.getBoolean(Global_Variable.WAS_SEND_SMS_STR,false);
+        Global_Variable.TIME_START = sharedPreferences.getString(Global_Variable.TIME_START_STR,"00:00");
+        Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR,"00:00");
+
+        Global_Variable.SMS_UNABLE = sharedPreferences.getBoolean(Global_Variable.SMS_UNABLE_STR,false);
+        if(Global_Variable.SMS_UNABLE){
+            Global_Variable.TIME_SEND_SMS = sharedPreferences.getInt(Global_Variable.TIME_SEND_SMS_STR,1);
+            Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR,1);
+            Global_Variable.WAS_SEND_SMS = sharedPreferences.getBoolean(Global_Variable.WAS_SEND_SMS_STR,false);
+            Global_Variable.SMS_CONTENT = sharedPreferences.getString(Global_Variable.SMS_CONTENT_STR,"");
+            Global_Variable.SMS_SENDTO = sharedPreferences.getString(Global_Variable.SMS_SENDTO_STR,"");
+        }
+        TIME_START = (Integer.valueOf(Global_Variable.TIME_START.split(":")[0]))*60 + (Integer.valueOf(Global_Variable.TIME_START.split(":")[1]));
+        TIME_END = (Integer.valueOf(Global_Variable.TIME_END.split(":")[0]))*60 + (Integer.valueOf(Global_Variable.TIME_END.split(":")[1]));
+
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        Date date = new Date();   // given date
-        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-        calendar.setTime(date);   // assigns calendar to given date
-        Log.d("Yong","current time : "+calendar.get(Calendar.HOUR_OF_DAY) + "time start : "+
-                Global_Variable.TIME_START + " time end : "+Global_Variable.TIME_END);
-        Log.d("bala",Global_Variable.WAS_SEND_SMS+"");
-        if(!Global_Variable.WAS_SEND_SMS&&(
-                Global_Variable.DAY_SEND_SMS == calendar.get(Calendar.DAY_OF_WEEK)||
-                (calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY&&Global_Variable.DAY_SEND_SMS ==8))&&
-                calendar.get(Calendar.HOUR_OF_DAY)==Global_Variable.TIME_SEND_SMS)
-        {
-            Global_Variable.WAS_SEND_SMS=true;
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
-            editor.apply();
+//        Date date = new Date();   // given date
+//        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+//        calendar.setTime(date);   // assigns calendar to given date
 
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:01675027634"));
-//            intent.putExtra("sms_body", "Ứng dụng còn tồn tại");
-//            startActivity(intent);
-            Log.d("YongYong","Was Send");
-//            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", "01675027634", null));
-//            sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            sendIntent.putExtra("sms_body", "ung dụng còn sống");
-//            contextParent.startActivity(sendIntent);
-            String messageToSend = "ung dung con song";
-            String number = "01675027634";
+        if(Global_Variable.SMS_UNABLE) {
+            if (!Global_Variable.WAS_SEND_SMS && (
+                    Global_Variable.DAY_SEND_SMS == calendar.get(Calendar.DAY_OF_WEEK) ||
+                            (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && Global_Variable.DAY_SEND_SMS == 8)) &&
+                    calendar.get(Calendar.HOUR_OF_DAY) == Global_Variable.TIME_SEND_SMS) {
+                Global_Variable.WAS_SEND_SMS = true;
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
+                editor.apply();
 
-            SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
+                Log.d("YongQuan","đã vào rồi nek: content: "+Global_Variable.SMS_CONTENT +" : number "+Global_Variable.SMS_SENDTO);
+                String messageToSend = Global_Variable.SMS_CONTENT;
+                String number = Global_Variable.SMS_SENDTO;
+
+                SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
+            }
+            Log.d("bala", Global_Variable.WAS_SEND_SMS + "");
+            //qua chi ky moi
+            if (Global_Variable.WAS_SEND_SMS && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && Global_Variable.DAY_SEND_SMS == 8) {
+                Global_Variable.WAS_SEND_SMS = false;
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
+                editor.apply();
+            }
         }
-        Log.d("bala",Global_Variable.WAS_SEND_SMS+"");
-        //qua chi ky moi
-        if(Global_Variable.WAS_SEND_SMS&&calendar.get(Calendar.DAY_OF_WEEK)==Calendar.MONDAY && Global_Variable.DAY_SEND_SMS ==8){
-            Global_Variable.WAS_SEND_SMS=false;
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
-            editor.apply();
-        }
-        Log.d("bala",Global_Variable.WAS_SEND_SMS+"");
-        if((Global_Variable.TIME_START == 0 && Global_Variable.TIME_END == 0) ||
-                calendar.get(Calendar.HOUR_OF_DAY)<Global_Variable.TIME_START ||
-                calendar.get(Calendar.HOUR_OF_DAY) > Global_Variable.TIME_END)
+        if(TIME_START == TIME_END ||
+           TIME_START > TIME_END ||
+           calendar.get(Calendar.HOUR_OF_DAY)*60 + calendar.get(Calendar.MINUTE) < TIME_START ||
+           calendar.get(Calendar.HOUR_OF_DAY)*60 + calendar.get(Calendar.MINUTE) > TIME_END)
         {
             try {
                 Thread.sleep(5000);
@@ -137,6 +147,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             Log.d("YongQuan", "Wait");
 
             while(true){
+                publishProgress(1);
                 Thread.sleep(1000);
                 Log.d("YongQuan","check current time :"+ checkTime + "/"+Global_Variable.TIME_CONNECT*60 +"  "+MainActivity.STATE_PHONE);
                 checkTime += 1;
@@ -156,13 +167,13 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
                 else if(MainActivity.STATE_PHONE == "idle") {
                     Log.d("YongQuan", "continue");
                     Thread.sleep(Global_Variable.TIME_WAITING*1000 * hesoWait);
-                    return null;
+                    break;
                 }
                 if(MyService.StopService) {
                     Thread.sleep(Global_Variable.TIME_WAITING*1000 * hesoWait);
-                    return null;
+                    break;
                 }
-                publishProgress(1);
+
             }
 
 
@@ -191,7 +202,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     private void callTo(String phone) {
         Log.d("YongQuan", phone);
         Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setPackage("com.android.phone");
+//        intent.setPackage("com.android.phone");
         intent.setData(Uri.parse("tel:" + phone));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (ActivityCompat.checkSelfPermission(contextParent, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {

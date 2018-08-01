@@ -18,17 +18,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button buttonStart, buttonAddPhone,buttonSetting;
 
-    public static int THOIGIANGOI = 0;
-    public static int THOIGIANCHO = 0;
-    public static int KHUNGGIO_BATDAU = 0;
-    public static int KHUNGGIO_KETHUC = 0;
-    public static int SMS_GIO = 0;
-    public static int SMS_NGAY = 0;
 
     public static String STATE_PHONE = "";
-    public static boolean SERVICE_IS_START = false;
+
     private SharedPreferences sharedPreferences;
-    public static int currentIndex=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(MyService.listContact==null){
             MyService.listContact =new ArrayList<Contact>();
         }
-        getAllSetting();
+
 
     }
     private void init(){
@@ -71,11 +65,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Global_Variable.TIME_WAITING = sharedPreferences.getInt(Global_Variable.TIME_WAITING_STR,0);
         Global_Variable.TIME_CONNECT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_CONNECT_MUNITE_STR,true);
         Global_Variable.TIME_WAIT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_WAIT_MUNITE_STR,true);
-        Global_Variable.TIME_START = sharedPreferences.getInt(Global_Variable.TIME_START_STR,0);
-        Global_Variable.TIME_END = sharedPreferences.getInt(Global_Variable.TIME_END_STR,0);
+        Global_Variable.TIME_START = sharedPreferences.getString(Global_Variable.TIME_START_STR,"00:00");
+        Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR,"00:00");
         Global_Variable.TIME_SEND_SMS = sharedPreferences.getInt(Global_Variable.TIME_SEND_SMS_STR,1);
         Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR,1);
         Global_Variable.WAS_SEND_SMS = sharedPreferences.getBoolean(Global_Variable.WAS_SEND_SMS_STR,false);
+        Global_Variable.SMS_UNABLE = sharedPreferences.getBoolean(Global_Variable.SMS_UNABLE_STR,false);
+        Global_Variable.SMS_CONTENT = sharedPreferences.getString(Global_Variable.SMS_CONTENT_STR,"");
+        Global_Variable.SMS_SENDTO = sharedPreferences.getString(Global_Variable.SMS_SENDTO_STR,"");
     }
     public void onClick(View src) {
         switch (src.getId()) {
@@ -114,13 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void getAllSetting(){
-        THOIGIANGOI = sharedPreferences.getInt("callTGKN",0);
-        THOIGIANCHO = sharedPreferences.getInt("callTGBD",0);
-        KHUNGGIO_BATDAU = sharedPreferences.getInt("callTGKT",0);
-        KHUNGGIO_KETHUC = sharedPreferences.getInt("callTGC",0);
-        SMS_GIO = sharedPreferences.getInt("smsGio",0);
-        SMS_NGAY = sharedPreferences.getInt("smsNgay",0);
-    }
+
 
 }

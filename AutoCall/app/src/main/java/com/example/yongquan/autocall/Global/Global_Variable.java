@@ -11,11 +11,14 @@ public class Global_Variable {
     public static int TIME_WAITING = 0;
     public static boolean TIME_CONNECT_MUNITE = true;
     public static boolean TIME_WAIT_MUNITE = true;
-    public static int TIME_START = 0;
-    public static int TIME_END = 0;
+    public static String TIME_START = "";
+    public static String TIME_END = "";
     public static int TIME_SEND_SMS;
     public static int DAY_SEND_SMS;
     public static boolean WAS_SEND_SMS = false;
+    public static boolean SMS_UNABLE = false;
+    public static String SMS_CONTENT = "";
+    public static String SMS_SENDTO = "";
     //
     public static String SERVICE_IS_START_STR = "service_start";
     public static String INDEX_PHONE_STR ="indexPhone";
@@ -28,6 +31,9 @@ public class Global_Variable {
     public static String TIME_SEND_SMS_STR = "time_send_sms";
     public static String DAY_SEND_SMS_STR = "day_send_sms";
     public static String WAS_SEND_SMS_STR = "was_send_sms";
+    public static String SMS_UNABLE_STR = "sms_unable";
+    public static String SMS_CONTENT_STR = "sms_content";
+    public static String SMS_SENDTO_STR = "sms_sendto";
 
 
 }

@@ -23,8 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddPhone"/>
-        <activity android:name=".SettingActivity"/>
+        <activity android:name=".AddPhone"
+            android:parentActivityName=".MainActivity"
+            android:label="Thêm số điện thoại"
+            />
+        <activity
+            android:name=".SettingActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Cài đặt cuộc gọi"></activity>
         <service
             android:name=".MyService"
             android:enabled="true"

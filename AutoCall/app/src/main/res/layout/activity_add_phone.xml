@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -21,13 +22,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
+                android:gravity="center"
+                android:background="@drawable/edittext_custome"
                 android:layout_weight="5"
                 android:textColor="@color/colorDark"
                 android:id="@+id/edt_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="35dp" />
         </LinearLayout>
         <LinearLayout
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -37,12 +41,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
+                android:gravity="center"
+                android:background="@drawable/edittext_custome"
                 android:inputType="number"
                 android:layout_weight="5"
                 android:textColor="@color/colorDark"
                 android:id="@+id/edt_phone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="35dp" />
         </LinearLayout>
 
         <Button
@@ -51,7 +57,7 @@
             android:text="Thêm"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="50dp" />
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
