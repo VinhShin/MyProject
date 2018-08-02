@@ -1,11 +1,18 @@
 package com.example.yongquan.autocall;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -138,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             startService(new Intent(this, MyService.class));
                             buttonStart.setText("Tắt Chương Trình");
                             Toast.makeText(this, "Chạy Chương Trình", Toast.LENGTH_LONG).show();
+                            Global_Function.sendNotification(this,"Ứng dụng đang chạy ngầm",1);
                         } else {
                             Toast.makeText(this, "Không có số gọi", Toast.LENGTH_LONG).show();
                         }
@@ -148,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         editor.apply();
                         stopService(new Intent(this, MyService.class));
                         buttonStart.setText("Chạy Chương Trình");
+                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        mNotificationManager.cancel(1);
                     }
                 }
                 break;

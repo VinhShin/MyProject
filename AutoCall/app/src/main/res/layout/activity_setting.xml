@@ -22,7 +22,7 @@
                 android:textSize="17sp"
                 android:padding="4dp"
                 android:id="@+id/txt_tgg"
-                android:text="Thời gian kết nối (phút)"
+                android:text="Thời gian kết nối cuộc gọi (phút)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <LinearLayout
@@ -116,7 +116,7 @@
                 android:padding="4dp"
                 android:layout_below="@id/ll_tgc"
                 android:id="@+id/txt_khunggio"
-                android:text="Khung giờ"
+                android:text="Khung giờ gọi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <LinearLayout
@@ -180,6 +180,11 @@
                     android:layout_below="@id/txt_SmsThongbao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Vào "
+                        android:id="@+id/tile_vao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                     <EditText
                         android:background="@drawable/edittext_custome"
                         android:gravity="center"

@@ -35,10 +35,13 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true"/>
-        <receiver android:name=".AutoStart">
+        <receiver android:name=".Receiver.AutoStart">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
+        </receiver>
+        <receiver android:name=".Receiver.NotificationDismissedReceiver"
+            android:exported="false" >
         </receiver>
     </application>
 

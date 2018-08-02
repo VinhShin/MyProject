@@ -1,1 +1,27 @@
-Sử dụng những thư viện đặc biệt có khả năng api 2.3 sẽ ko sử dụng đx. như time picker
+Các chức năng đã xong
+- thêm số gọi
+- auto call, chạy nền trên service
+- tắt phone, service tự động start - tiếp tục gọi sau đó
+- setting các thông số gọi
+- dàn buộc các trường setting
+- setting các dữ liệu sms thông báo
+- tự động gửi sms thông báo 
+
+
+Các chức năng chưa xong
+- lưu lịch sử cuộc gọi
+- gọi theo chế độ gọi - randome, tuần tự,...
+- design lại app
+- gắn icon
+- chỉnh sửa số điện thoại vừa nhập
+- gắn splash screen + password đăng nhập ứng dụng
+- ...
+
+bug: giải quyết sau
+1. Trường hợp trạng thái của việc gọi ko nhấp máy và gọi số không hợp lệ sẽ khác nhau
+- trường hợp gọi số ko hợp lẽ đối với 1 số phone sẽ default lại thêm 10 giây
+=> cái này vẫn chưa kiểm tra được => hiện tại thời gian chờ sẽ + thêm 10 giây để tránh bug
+2. đối với 1 vài dòng phone sẽ không trỏ trực tiếp đến ứng dụng call của phone. => sẽ show 1 loạt danh sách ứng dụng để chọn
+=> có cách giải quyết. nhưng hướng giải quyết hiện tại lại xảy ra lỗi crash đối với 1 số dòng phone khác
+3. test trên phone huawei nova 2i. hiện tại đôi lúc hiện thông báo. "call not send". (mặc dù vẫn gọi bình thường )
+=> Chưa tìm đx nguyên do
