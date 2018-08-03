@@ -8,16 +8,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
+import android.graphics.Typeface;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yongquan.autocall.Global.Global_Function;
@@ -28,13 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    Button buttonStart, buttonAddPhone,buttonSetting;
-
 
     public static String STATE_PHONE = "";
     public final int MULTIPLE_PERMISSIONS = 10;
-
-    private SharedPreferences sharedPreferences;
     public static String[] permissions = new String[]{
             Manifest.permission.CALL_PHONE,
             Manifest.permission.READ_PHONE_STATE,
@@ -43,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     private boolean permision_ok = false;
+
+    Button buttonStart, buttonAddPhone,buttonSetting;
+    TextView textViewTitleApp;
+
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonStart = (Button) findViewById(R.id.buttonStart);
         buttonAddPhone = (Button) findViewById(R.id.buttonAddPhone);
         buttonSetting = (Button) findViewById(R.id.buttonSetting);
-
+//        textViewTitleApp = (TextView)findViewById(R.id.titleApp);
         buttonStart.setOnClickListener(this);
         buttonAddPhone.setOnClickListener(this);
         buttonSetting.setOnClickListener(this);
@@ -65,10 +66,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonStart.setText("Chạy Chương Trình");
         }
 
-        if(MyService.listContact==null){
-            MyService.listContact =new ArrayList<Contact>();
+        if(Global_Variable.listContact==null){
+            Global_Variable.listContact =new ArrayList<Contact>();
         }
 
+//        Typeface face = Typeface.createFromAsset(getAssets(),
+//                "fonts/gitchgitch-italic.otf");
+//        textViewTitleApp.setTypeface(face);
 
     }
 
@@ -108,13 +112,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d("YongQuan","thoat");
+        this.moveTaskToBack(true);
+    }
+
     private void init(){
 //        final PhoneCallListener phoneListener = new PhoneCallListener();
 //        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 //        telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         sharedPreferences = getSharedPreferences("YongQuan",Context.MODE_PRIVATE);
         String str = sharedPreferences.getString("contact","");
-        MyService.listContact = Global_Function.convertStringToArray(str);
+        Global_Variable.listContact = Global_Function.convertStringToArray(str);
 
         Global_Variable.SERVICE_IS_START = sharedPreferences.getBoolean(Global_Variable.SERVICE_IS_START_STR,false);
         Global_Variable.INDEX_PHONE = sharedPreferences.getInt(Global_Variable.INDEX_PHONE_STR,0);
@@ -137,10 +147,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkPermissions();
                 if(permision_ok) {
                     if (!Global_Variable.SERVICE_IS_START) {
-                        if (MyService.listContact != null && MyService.listContact.size() > 0) {
+                        if (Global_Variable.listContact != null && Global_Variable.listContact.size() > 0) {
                             Global_Variable.SERVICE_IS_START = true;
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);
+                            //tao list moi de goi random
+                            editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact));
                             editor.apply();
                             startService(new Intent(this, MyService.class));
                             buttonStart.setText("Tắt Chương Trình");
@@ -151,13 +163,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     } else {
                         Global_Variable.SERVICE_IS_START = false;
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);
-                        editor.apply();
                         stopService(new Intent(this, MyService.class));
                         buttonStart.setText("Chạy Chương Trình");
                         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.cancel(1);
+                        sharedPreferences = getSharedPreferences("YongQuan",Context.MODE_PRIVATE);
+                        String str = sharedPreferences.getString("contact","");
+                        Global_Variable.listContact = Global_Function.convertStringToArray(str);
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);
+                        editor.remove("contact_t");
+                        Global_Variable.WAS_SEND_SMS = false;
+                        editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
+                        editor.apply();
                     }
                 }
                 break;

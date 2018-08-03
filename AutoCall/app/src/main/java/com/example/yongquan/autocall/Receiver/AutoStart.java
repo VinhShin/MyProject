@@ -16,10 +16,11 @@ public class AutoStart extends BroadcastReceiver {
     public void onReceive(final Context context, Intent arg1) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
         boolean serviceActivated = sharedPreferences.getBoolean(Global_Variable.SERVICE_IS_START_STR, false);
+        Log.d("YongQuan","Check start service: "+serviceActivated);
         if (serviceActivated) {
             Log.d("YongQuan","restart service");
             context.startService(new Intent(context, MyService.class));
-            Global_Function.sendNotification(context,"Ứng dụng đang chạy ngầm",1);
+            Global_Function.sendNotification(context,"?ng d?ng dang ch?y ng?m",1);
 //            Intent serviceIntent = new Intent(context, MainActivity.class);
 //            context.startService(serviceIntent);
         }

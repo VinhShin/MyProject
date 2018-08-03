@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     tools:context=".MainActivity">
-
     <Button
         android:background="@drawable/button_custome"
         android:id="@+id/buttonStart"
@@ -36,4 +35,21 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="63dp"
         android:text="Cài Đặt" />
+    <LinearLayout
+        android:layout_above="@id/buttonStart"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/title_app" />
+
+
+    </LinearLayout>
+
 </RelativeLayout>

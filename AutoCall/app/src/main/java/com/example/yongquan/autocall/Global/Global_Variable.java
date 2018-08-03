@@ -3,8 +3,13 @@ package com.example.yongquan.autocall.Global;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.yongquan.autocall.Model.Contact;
+
+import java.util.ArrayList;
+
 public class Global_Variable {
 
+    public static ArrayList<Contact> listContact;
     public static boolean SERVICE_IS_START = false;
     public static int INDEX_PHONE = 0;
     public static int TIME_CONNECT = 0;

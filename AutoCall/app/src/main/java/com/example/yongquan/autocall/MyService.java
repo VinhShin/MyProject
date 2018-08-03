@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class MyService extends Service {
     public static boolean StopService = false;
-    public static ArrayList<Contact> listContact;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

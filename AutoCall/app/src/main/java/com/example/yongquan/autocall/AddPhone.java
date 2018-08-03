@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 
 import com.example.yongquan.autocall.Adapter.AdapterContact;
+import com.example.yongquan.autocall.Global.Global_Function;
+import com.example.yongquan.autocall.Global.Global_Variable;
 import com.example.yongquan.autocall.Model.Contact;
 
 import java.util.ArrayList;
@@ -45,10 +47,10 @@ public class AddPhone extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(edtNameContact.getText().toString().length()>0 && edtNumContact.getText().toString().length()>0) {
-                    MyService.listContact.add(new Contact(edtNameContact.getText().toString(), edtNumContact.getText().toString()));
+                    Global_Variable.listContact.add(new Contact(edtNameContact.getText().toString(), edtNumContact.getText().toString()));
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.remove("contact");
-                    editor.putString("contact",converStringFromArray(MyService.listContact));
+                    editor.putString("contact", Global_Function.converStringFromArray(Global_Variable.listContact));
                     editor.apply();
                     setListView();
                     edtNameContact.setText("");
@@ -64,16 +66,10 @@ public class AddPhone extends AppCompatActivity {
     }
     private void setListView(){
 
-        if(MyService.listContact.size()>0) {
-            AdapterContact adapterContact = new AdapterContact(this.getApplicationContext(), MyService.listContact);
+        if(Global_Variable.listContact.size()>0) {
+            AdapterContact adapterContact = new AdapterContact(this.getApplicationContext(), Global_Variable.listContact);
             lsContact.setAdapter(adapterContact);
         }
     }
-    public static String converStringFromArray(ArrayList<Contact> list){
-        String str = "";
-        for(int i=0;i<list.size();i++){
-            str += list.get(i).getName() +"_"+ list.get(i).getPhone()+"__";
-        }
-        return  str;
-    }
+
 }

@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 
 import com.example.yongquan.autocall.AddPhone;
+import com.example.yongquan.autocall.Global.Global_Function;
+import com.example.yongquan.autocall.Global.Global_Variable;
 import com.example.yongquan.autocall.MainActivity;
 import com.example.yongquan.autocall.Model.Contact;
 import com.example.yongquan.autocall.MyService;
@@ -60,12 +62,12 @@ public class AdapterContact extends ArrayAdapter<Contact> {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyService.listContact.remove(position);
+                Global_Variable.listContact.remove(position);
                 notifyDataSetChanged();
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove("contact");
-                editor.putString("contact", AddPhone.converStringFromArray(MyService.listContact));
+                editor.putString("contact", Global_Function.converStringFromArray(Global_Variable.listContact));
                 editor.apply();
             }
         });

@@ -28,12 +28,24 @@ public class Global_Function {
                     contact.add(new Contact(temp[0], temp[1]));
                 }
             }
-
-            return contact;
+            if(contact.size()>0)
+            {
+                return contact;
+            }
+            else {
+                return null;
+            }
         }
         return null;
     }
-    public static void sendNotification(Context context, String message, int notificationId) {
+    public static String converStringFromArray(ArrayList<Contact> list){
+        String str = "";
+        for(int i=0;i<list.size();i++){
+            str += list.get(i).getName() +"_"+ list.get(i).getPhone()+"__";
+        }
+        return  str;
+    }
+	public static void sendNotification(Context context, String message, int notificationId) {
         Bundle b = new Bundle();
         Intent intent = new Intent(context, NotificationDismissedReceiver.class);
         intent.putExtra("com.stack.notificationId", notificationId);

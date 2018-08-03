@@ -20,14 +20,20 @@
             tools:ignore="MissingConstraints">
             <TextView
                 android:textSize="17sp"
-                android:padding="4dp"
                 android:id="@+id/txt_tgg"
                 android:text="Thời gian kết nối cuộc gọi (phút)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12sp"
+                android:id="@+id/note_tgkn"
+                android:layout_below="@+id/txt_tgg"
+                android:text="Hết thời gian này cuộc gọi sẽ tự động ngắt."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:id="@+id/ll_tgkn"
-                android:layout_below="@id/txt_tgg"
+                android:layout_below="@id/note_tgkn"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
@@ -66,16 +72,23 @@
             </LinearLayout>
             <TextView
                 android:textSize="17sp"
-                android:padding="4dp"
                 android:layout_below="@+id/ll_tgkn"
                 android:id="@+id/txt_tgc"
                 android:text="Thời gian chờ (phút)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12sp"
+
+                android:id="@+id/note_tgc"
+                android:layout_below="@id/txt_tgc"
+                android:text="Thời gian chờ để gọi cuộc gọi cuộc gọi tiếp theo."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:id="@+id/ll_tgc"
-                android:layout_below="@id/txt_tgc"
+                android:layout_below="@id/note_tgc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -113,15 +126,21 @@
             </LinearLayout>
             <TextView
                 android:textSize="17sp"
-                android:padding="4dp"
                 android:layout_below="@id/ll_tgc"
                 android:id="@+id/txt_khunggio"
                 android:text="Khung giờ gọi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12sp"
+                android:layout_below="@id/txt_khunggio"
+                android:id="@+id/note_kg"
+                android:text="Chỉ gọi điện trong khung thời gian này."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:id="@+id/ll_khunggio"
-                android:layout_below="@id/txt_khunggio"
+                android:layout_below="@id/note_kg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
@@ -161,16 +180,21 @@
                 android:text="SMS thông báo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12sp"
+                android:layout_below="@id/radio_sms"
+                android:id="@+id/note_sms"
+                android:text="Cấu hình thời gian gửi sms báo cáo."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <RelativeLayout
                 android:visibility="visible"
                 android:id="@+id/rl_sms"
-                android:layout_below="@id/radio_sms"
+                android:layout_below="@id/note_sms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:textSize="17sp"
-                    android:padding="4dp"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/txt_SmsThongbao"
                     android:text="Thời gian sms thông báo"
                     android:layout_width="match_parent"
@@ -215,8 +239,15 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <TextView
-                    android:textSize="17sp"
+                    android:textSize="12sp"
                     android:layout_below="@+id/ll_sms"
+                    android:text="Giờ từ 0 -> 23, Thứ từ 2 -> 8 (chủ nhật)i"
+                    android:id="@+id/note_sms_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textSize="17sp"
+                    android:layout_below="@+id/note_sms_setting"
                     android:text="Số điện thoại"
                     android:id="@+id/title_sms_sendto"
                     android:layout_width="wrap_content"
