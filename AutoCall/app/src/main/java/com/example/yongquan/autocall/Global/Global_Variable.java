@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Global_Variable {
 
+    public static ArrayList<Contact> listContact_temp;
     public static ArrayList<Contact> listContact;
     public static boolean SERVICE_IS_START = false;
     public static int INDEX_PHONE = 0;
@@ -24,6 +25,9 @@ public class Global_Variable {
     public static boolean SMS_UNABLE = false;
     public static String SMS_CONTENT = "";
     public static String SMS_SENDTO = "";
+    public static int CALL_SUCCESS = 0;
+    public static long TOTAL_TIME_CALL = 0;
+
     //
     public static String SERVICE_IS_START_STR = "service_start";
     public static String INDEX_PHONE_STR ="indexPhone";
@@ -39,6 +43,8 @@ public class Global_Variable {
     public static String SMS_UNABLE_STR = "sms_unable";
     public static String SMS_CONTENT_STR = "sms_content";
     public static String SMS_SENDTO_STR = "sms_sendto";
+    public static String CALL_SUCCESS_STR = "call_success";
+    public static String TOTAL_TIME_CALL_STR = "total_time_call";
 
 
 }

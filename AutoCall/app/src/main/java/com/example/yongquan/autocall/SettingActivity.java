@@ -21,10 +21,10 @@ import com.example.yongquan.autocall.Global.Global_Variable;
 
 public class SettingActivity extends AppCompatActivity {
 
-    EditText TGKN,TGBD,TGKT,TGC,Gio,Ngay,edt_sms_content,edt_sms_sento;
+    public static EditText TGKN,TGBD,TGKT,TGC,Gio,Ngay,edt_sms_content,edt_sms_sento;
     Button button;
     CheckBox checkBox_SMS;
-    RadioButton rd_connect_munite,rd_connect_second, rd_wait_munite, rd_wait_second;
+    public static RadioButton rd_connect_munite,rd_connect_second, rd_wait_munite, rd_wait_second;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +71,12 @@ public class SettingActivity extends AppCompatActivity {
                         }
                         else if(checkDK==-5){
                             Toast.makeText(getApplicationContext(), "Thời gian sms thông báo không hợp lễ", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(checkDK==-6){
+                            Toast.makeText(getApplicationContext(),"Bạn không thể đặt thời gian chờ quá lớn",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(checkDK==-7){
+                            Toast.makeText(getApplicationContext(),"Bạn không thể đặt thời gian kết nối quá lớn",Toast.LENGTH_SHORT).show();
                         }
                         return;
                     }
@@ -153,7 +159,7 @@ public class SettingActivity extends AppCompatActivity {
         finish();
         return true;
     }
-    private void setup(){
+    public void setup(){
         TGKN.setText(String.valueOf(Global_Variable.TIME_CONNECT));
         TGC.setText(String.valueOf(Global_Variable.TIME_WAITING));
         TGBD.setText(String.valueOf(Global_Variable.TIME_START));
@@ -216,14 +222,20 @@ public class SettingActivity extends AppCompatActivity {
                 Integer.valueOf(strTimeEnd[1])<0){
             return -2;
         }
+        else if (TGKN.getText().toString().length()>5){
+            return -7;
+        }
         else if(TGKN.getText().toString().length()<1||Integer.valueOf(TGKN.getText().toString())<0){
             return -3;
+        }
+        else if (TGC.getText().toString().length()>5){
+            return -6;
         }
         else if(TGC.getText().toString().length()<1||Integer.valueOf(TGC.getText().toString())<0){
             return -4;
         }
         else if(Integer.valueOf(Gio.getText().toString())<0||Integer.valueOf(Gio.getText().toString())>24||
-                Integer.valueOf(Ngay.getText().toString())<0||Integer.valueOf(Ngay.getText().toString())>7){
+                Integer.valueOf(Ngay.getText().toString())<1||Integer.valueOf(Ngay.getText().toString())>8){
             return -5;
         }
         return 1;

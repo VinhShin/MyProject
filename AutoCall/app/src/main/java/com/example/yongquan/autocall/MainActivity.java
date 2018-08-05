@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Global_Variable.SERVICE_IS_START = sharedPreferences.getBoolean(Global_Variable.SERVICE_IS_START_STR,false);
         Global_Variable.INDEX_PHONE = sharedPreferences.getInt(Global_Variable.INDEX_PHONE_STR,0);
         Global_Variable.TIME_CONNECT = sharedPreferences.getInt(Global_Variable.TIME_CONNECT_STR,1);
-        Global_Variable.TIME_WAITING = sharedPreferences.getInt(Global_Variable.TIME_WAITING_STR,0);
+        Global_Variable.TIME_WAITING = sharedPreferences.getInt(Global_Variable.TIME_WAITING_STR,10);
         Global_Variable.TIME_CONNECT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_CONNECT_MUNITE_STR,true);
-        Global_Variable.TIME_WAIT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_WAIT_MUNITE_STR,true);
+        Global_Variable.TIME_WAIT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_WAIT_MUNITE_STR,false);
         Global_Variable.TIME_START = sharedPreferences.getString(Global_Variable.TIME_START_STR,"00:00");
-        Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR,"00:00");
+        Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR,"23:59");
         Global_Variable.TIME_SEND_SMS = sharedPreferences.getInt(Global_Variable.TIME_SEND_SMS_STR,1);
         Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR,1);
         Global_Variable.WAS_SEND_SMS = sharedPreferences.getBoolean(Global_Variable.WAS_SEND_SMS_STR,false);
@@ -167,9 +167,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         buttonStart.setText("Chạy Chương Trình");
                         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.cancel(1);
-                        sharedPreferences = getSharedPreferences("YongQuan",Context.MODE_PRIVATE);
-                        String str = sharedPreferences.getString("contact","");
-                        Global_Variable.listContact = Global_Function.convertStringToArray(str);
+//                        sharedPreferences = getSharedPreferences("YongQuan",Context.MODE_PRIVATE);
+//                        String str = sharedPreferences.getString("contact","");
+//                        Global_Variable.listContact = Global_Function.convertStringToArray(str);
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);

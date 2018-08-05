@@ -22,16 +22,16 @@ import java.util.ArrayList;
 
 public class AddPhone extends AppCompatActivity {
 
-    ListView lsContact;
+    private ListView lsContact;
     Button themContact;
     EditText edtNameContact,edtNumContact;
     SharedPreferences sharedPreferences;
-
+    public static AdapterContact adapterContact;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_phone);
-
+        adapterContact = new AdapterContact(this.getApplicationContext(), Global_Variable.listContact);
         sharedPreferences = getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
         themContact = (Button)findViewById(R.id.btnThemContact);
         edtNameContact = (EditText)findViewById(R.id.edt_name);
@@ -67,8 +67,17 @@ public class AddPhone extends AppCompatActivity {
     private void setListView(){
 
         if(Global_Variable.listContact.size()>0) {
-            AdapterContact adapterContact = new AdapterContact(this.getApplicationContext(), Global_Variable.listContact);
+
             lsContact.setAdapter(adapterContact);
+        }
+    }
+    public static void setListView(ArrayList<Contact> list) {
+        if (list != null) {
+            Global_Variable.listContact.clear();
+            Global_Variable.listContact.addAll(list);
+        }
+        if (adapterContact != null) {
+            adapterContact.notifyDataSetChanged();
         }
     }
 
