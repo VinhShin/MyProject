@@ -33,6 +33,7 @@ public class SmsSetting extends BroadcastReceiver {
 
     public static final String SMS_EXTRA_NAME = "pdus";
     private Context context = null;
+    String regexStr = "^[0-9]*$";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -59,13 +60,28 @@ public class SmsSetting extends BroadcastReceiver {
             int check = -1;
             SharedPreferences sharedPreferences = context.getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            for (String line : lines) {
-                check = isSyntaxForRegisterCourse(line, editor);
-                Log.d("YongQuan", "l " + line);
+            if (lines[0].equalsIgnoreCase("themds")) {
+                ArrayList<Contact> list = new ArrayList<>();
+                for(int i = 1 ; i< lines.length;i++){
+                    String arr[] = lines[i].split(" ");
+                    if (arr[1].matches(regexStr)) {
+                        list.add(new Contact(arr[0],arr[1]));
+                        Log.d("YongQuan", "cung vao day lun");
+                    }
+                }
+                if(list.size()>0) {
+                    editor.putString("contact", Global_Function.converStringFromArray(list));
+                    editor.apply();
+                    AddPhone.setListView(list);
+                }
+            } else {
+                for (String line : lines) {
+                    check = isSyntaxForRegisterCourse(line, editor);
+                    Log.d("YongQuan", "l " + line);
 
+                }
+                editor.apply();
             }
-            editor.apply();
-
         }
     }
 
@@ -94,13 +110,13 @@ public class SmsSetting extends BroadcastReceiver {
                     }
                 }
             } else if (arr[0].equalsIgnoreCase("TGC")) {
-                Log.d("YongQuan","Co vao day ma");
+                Log.d("YongQuan", "Co vao day ma");
                 if (!arr[1].matches(regexStr) || arr[1].length() < 1 || arr[1].length() > 5 || Integer.valueOf(arr[1]) < 0) {
-                        return -1;
+                    return -1;
                 } else if (arr[2].equalsIgnoreCase("phut")) {
                     editor.putInt(Global_Variable.TIME_WAITING_STR, Integer.valueOf(arr[1]));
                     editor.putBoolean(Global_Variable.TIME_WAIT_MUNITE_STR, true);
-                    if(TGC!=null) {
+                    if (TGC != null) {
                         TGC.setText(arr[1]);
                         rd_wait_munite.setChecked(true);
                         rd_wait_second.setChecked(false);
@@ -115,7 +131,7 @@ public class SmsSetting extends BroadcastReceiver {
                     }
                 }
             } else if (arr[0].equalsIgnoreCase("KG")) {
-                Log.d("YongQuan","Cung Co vao day ma");
+                Log.d("YongQuan", "Cung Co vao day ma");
                 String strTimeStart[] = arr[1].split(":");
                 String strTimeEnd[] = arr[2].split(":");
 
@@ -126,7 +142,7 @@ public class SmsSetting extends BroadcastReceiver {
                         Integer.valueOf(strTimeStart[0]) < 0 ||
                         Integer.valueOf(strTimeStart[1]) > 59 ||
                         Integer.valueOf(strTimeStart[1]) < 0) {
-                    Log.d("YongQuan","add time start fail");
+                    Log.d("YongQuan", "add time start fail");
                 } else {
                     editor.putString(Global_Variable.TIME_START_STR, arr[1]);
                     if (TGBD != null) {
@@ -141,35 +157,32 @@ public class SmsSetting extends BroadcastReceiver {
                         Integer.valueOf(strTimeEnd[0]) < 0 ||
                         Integer.valueOf(strTimeEnd[1]) > 59 ||
                         Integer.valueOf(strTimeEnd[1]) < 0) {
-                    Log.d("YongQuan","add time end fail");
+                    Log.d("YongQuan", "add time end fail");
                 } else {
                     editor.putString(Global_Variable.TIME_END_STR, arr[2]);
                     if (TGBD != null) {
                         TGKT.setText(arr[2]);
                     }
                 }
-            }
-            else if(arr[0].equalsIgnoreCase("them"))
-            {
-                Log.d("YongQuan","da vao day");
-                Log.d("YongQuan",arr[2]);
-                if(arr[2].matches(regexStr)){
-                    Log.d("YongQuan","cung vao day lun@");
+            } else if (arr[0].equalsIgnoreCase("them")) {
+                Log.d("YongQuan", "da vao day");
+                Log.d("YongQuan", arr[2]);
+                if (arr[2].matches(regexStr)) {
+                    Log.d("YongQuan", "cung vao day lun@");
                     SharedPreferences sharedPreferences = context.getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
                     String str = sharedPreferences.getString("contact", "");
                     ArrayList<Contact> listContact = Global_Function.convertStringToArray(str);
-                    if(listContact==null){
+                    if (listContact == null) {
                         listContact = new ArrayList<Contact>();
                     }
-                    listContact.add(new Contact(arr[1],arr[2]));
+                    listContact.add(new Contact(arr[1], arr[2]));
                     editor.putString("contact", Global_Function.converStringFromArray(listContact));
                     editor.apply();
                     AddPhone.setListView(listContact);
-                    Log.d("YongQuan","cung vao day lun");
+                    Log.d("YongQuan", "cung vao day lun");
                 }
             }
-        }
-        else if(arr.length==2){
+        } else if (arr.length == 2) {
 
         }
         return -1;
