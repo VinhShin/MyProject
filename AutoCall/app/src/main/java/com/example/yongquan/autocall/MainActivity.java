@@ -163,6 +163,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     } else {
                         Global_Variable.SERVICE_IS_START = false;
+                        Global_Variable.WAS_SEND_SMS = false;
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);
+                        editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
+                        editor.remove("contact_t");
+                        editor.apply();
+
                         stopService(new Intent(this, MyService.class));
                         buttonStart.setText("Chạy Chương Trình");
                         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -171,12 +178,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        String str = sharedPreferences.getString("contact","");
 //                        Global_Variable.listContact = Global_Function.convertStringToArray(str);
 
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);
-                        editor.remove("contact_t");
-                        Global_Variable.WAS_SEND_SMS = false;
-                        editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
-                        editor.apply();
+
+
                     }
                 }
                 break;

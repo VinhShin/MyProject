@@ -12,7 +12,6 @@ import com.example.yongquan.autocall.Model.Contact;
 import java.util.ArrayList;
 
 public class MyService extends Service {
-    public static boolean StopService = false;
 
     @Nullable
     @Override
@@ -26,13 +25,11 @@ public class MyService extends Service {
 
     @Override
     public void onStart(Intent intent, int startid) {
-        StopService = false;
         new MyAsyncTask(this).execute();
     }
 
     @Override
     public void onDestroy() {
-        StopService = true;
         Toast.makeText(this, "Tắt Chương Trình", Toast.LENGTH_LONG).show();
     }
 
