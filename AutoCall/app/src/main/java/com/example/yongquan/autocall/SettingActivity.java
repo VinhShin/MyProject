@@ -235,7 +235,7 @@ public class SettingActivity extends AppCompatActivity {
             return -4;
         }
         else if(Integer.valueOf(Gio.getText().toString())<0||Integer.valueOf(Gio.getText().toString())>24||
-                Integer.valueOf(Ngay.getText().toString())<1||Integer.valueOf(Ngay.getText().toString())>8){
+                Integer.valueOf(Ngay.getText().toString())<2||Integer.valueOf(Ngay.getText().toString())>8){
             return -5;
         }
         return 1;

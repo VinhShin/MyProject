@@ -19,12 +19,14 @@
             tools:layout_editor_absoluteX="8dp"
             tools:ignore="MissingConstraints">
             <TextView
+                android:textColor="@color/colorDark"
                 android:textSize="17sp"
                 android:id="@+id/txt_tgg"
                 android:text="Thời gian kết nối cuộc gọi (phút)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textColor="@color/colorDark"
                 android:textSize="12sp"
                 android:id="@+id/note_tgkn"
                 android:layout_below="@+id/txt_tgg"
@@ -73,6 +75,7 @@
 
             </LinearLayout>
             <TextView
+                android:textColor="@color/colorDark"
                 android:textSize="17sp"
                 android:layout_below="@+id/ll_tgkn"
                 android:id="@+id/txt_tgc"
@@ -80,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textColor="@color/colorDark"
                 android:textSize="12sp"
                 android:id="@+id/note_tgc"
                 android:layout_below="@id/txt_tgc"
@@ -128,6 +132,7 @@
                 </RadioGroup>
             </LinearLayout>
             <TextView
+                android:textColor="@color/colorDark"
                 android:textSize="17sp"
                 android:layout_below="@id/ll_tgc"
                 android:id="@+id/txt_khunggio"
@@ -135,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textColor="@color/colorDark"
                 android:textSize="12sp"
                 android:layout_below="@id/txt_khunggio"
                 android:id="@+id/note_kg"
@@ -157,6 +163,7 @@
                     android:layout_width="55dp"
                     android:layout_height="40dp" />
                 <TextView
+                    android:textColor="@color/colorDark"
                     android:padding="4dp"
                     android:text="đến"
                     android:layout_width="wrap_content"
@@ -170,6 +177,7 @@
                     android:layout_width="55dp"
                     android:layout_height="40dp" />
                 <TextView
+                    android:textColor="@color/colorDark"
                     android:padding="4dp"
                     android:text="giờ"
                     android:layout_width="wrap_content"
@@ -186,6 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textColor="@color/colorDark"
                 android:textSize="12sp"
                 android:layout_below="@id/radio_sms"
                 android:id="@+id/note_sms"
@@ -199,6 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textColor="@color/colorDark"
                     android:layout_marginTop="2dp"
                     android:textSize="17sp"
                     android:id="@+id/txt_SmsThongbao"
@@ -211,6 +221,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:textColor="@color/colorDark"
                         android:text="Vào "
                         android:id="@+id/tile_vao"
                         android:layout_width="wrap_content"
@@ -225,6 +236,7 @@
                         android:layout_width="35dp"
                         android:layout_height="40dp" />
                     <TextView
+                        android:textColor="@color/colorDark"
                         android:padding="4dp"
                         android:text="giờ, mỗi thứ"
                         android:layout_width="wrap_content"
@@ -239,12 +251,14 @@
                         android:layout_width="35dp"
                         android:layout_height="40dp" />
                     <TextView
+                        android:textColor="@color/colorDark"
                         android:padding="4dp"
                         android:text="hàng tuần"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <TextView
+                    android:textColor="@color/colorDark"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="5dp"
                     android:textSize="12sp"
@@ -254,6 +268,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:textColor="@color/colorDark"
                     android:textSize="17sp"
                     android:layout_below="@+id/note_sms_setting"
                     android:text="Số điện thoại"
@@ -271,6 +286,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp" />
                 <TextView
+                    android:textColor="@color/colorDark"
                     android:textSize="17sp"
                     android:layout_below="@+id/edt_sms_sendto"
                     android:id="@+id/title_sms"

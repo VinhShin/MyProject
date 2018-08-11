@@ -20,6 +20,7 @@
 
         android:paddingLeft="8dip">
         <TextView
+            android:textColor="@color/colorDark"
             android:id="@+id/tvContactName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

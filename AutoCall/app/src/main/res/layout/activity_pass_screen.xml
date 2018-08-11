@@ -21,7 +21,6 @@
         <EditText
             android:gravity="center"
             android:textColor="@color/colorDark"
-            android:inputType="numberPassword"
             android:id="@+id/editPass"
             android:layout_margin="10dp"
             android:background="@drawable/edittext_custome"

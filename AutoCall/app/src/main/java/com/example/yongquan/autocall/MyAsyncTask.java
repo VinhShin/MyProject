@@ -68,19 +68,20 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
         }
         Log.d("YongQuan", "list :" + str);
+
         Global_Variable.INDEX_PHONE = sharedPreferences.getInt(Global_Variable.INDEX_PHONE_STR, 0);
-        Global_Variable.TIME_CONNECT = sharedPreferences.getInt(Global_Variable.TIME_CONNECT_STR, 0);
-        Global_Variable.TIME_WAITING = sharedPreferences.getInt(Global_Variable.TIME_WAITING_STR, 0);
+        Global_Variable.TIME_CONNECT = sharedPreferences.getInt(Global_Variable.TIME_CONNECT_STR, 1);
+        Global_Variable.TIME_WAITING = sharedPreferences.getInt(Global_Variable.TIME_WAITING_STR, 10);
         Global_Variable.TIME_CONNECT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_CONNECT_MUNITE_STR, true);
-        Global_Variable.TIME_WAIT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_WAIT_MUNITE_STR, true);
+        Global_Variable.TIME_WAIT_MUNITE = sharedPreferences.getBoolean(Global_Variable.TIME_WAIT_MUNITE_STR, false);
         Global_Variable.TIME_START = sharedPreferences.getString(Global_Variable.TIME_START_STR, "00:00");
-        Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR, "00:00");
+        Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR, "23:59");
         Global_Variable.TOTAL_TIME_CALL = sharedPreferences.getLong(Global_Variable.TOTAL_TIME_CALL_STR,0);
         Global_Variable.SMS_UNABLE = sharedPreferences.getBoolean(Global_Variable.SMS_UNABLE_STR, false);
         Global_Variable.SERVICE_IS_START = sharedPreferences.getBoolean(Global_Variable.SERVICE_IS_START_STR,false);
         if (Global_Variable.SMS_UNABLE) {
             Global_Variable.TIME_SEND_SMS = sharedPreferences.getInt(Global_Variable.TIME_SEND_SMS_STR, 1);
-            Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR, 1);
+            Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR, 2);
             Global_Variable.WAS_SEND_SMS = sharedPreferences.getBoolean(Global_Variable.WAS_SEND_SMS_STR, false);
             Global_Variable.SMS_CONTENT = sharedPreferences.getString(Global_Variable.SMS_CONTENT_STR, "");
             Global_Variable.SMS_SENDTO = sharedPreferences.getString(Global_Variable.SMS_SENDTO_STR, "");
@@ -95,41 +96,27 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-//        Date date = new Date();   // given date
-//        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-//        calendar.setTime(date);   // assigns calendar to given date
         if(!Global_Variable.SERVICE_IS_START){
             return null;
         }
 
         if (Global_Variable.SMS_UNABLE) {
-            Log.d("YongQuana","SMS_UNABLE");
-            Log.d("YongQuana","WAS SEND : "+Global_Variable.WAS_SEND_SMS);
             if (!Global_Variable.WAS_SEND_SMS && (
                     Global_Variable.DAY_SEND_SMS == calendar.get(Calendar.DAY_OF_WEEK) ||
                             (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY && Global_Variable.DAY_SEND_SMS == 8)) &&
                     calendar.get(Calendar.HOUR_OF_DAY) == Global_Variable.TIME_SEND_SMS) {
-                Log.d("YongQuana","da gui sms");
-
-
-
                 Global_Variable.CALL_SUCCESS = sharedPreferences.getInt(Global_Variable.CALL_SUCCESS_STR, 0);
-
                 long thoigiangoi = Global_Variable.TOTAL_TIME_CALL/60;
                 long thoigiangois = Global_Variable.TOTAL_TIME_CALL%60;
                 String messageToSend = Global_Variable.SMS_CONTENT +
                         " \n " +"Tong thoi gian goi : " + thoigiangoi + " phut "+thoigiangois+" giay \n " +
                         "So cuoc goi thanh cong : "+Global_Variable.CALL_SUCCESS;
-
                 String number = Global_Variable.SMS_SENDTO;
-                Log.d("YongQuana","send to "+Global_Variable.SMS_SENDTO);
-                Log.d("YongQuana","content "+messageToSend);
 
-                //SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
+                SmsManager sms = SmsManager.getDefault();
+                ArrayList<String> parts = sms.divideMessage(messageToSend);
+                sms.sendMultipartTextMessage(number, null, parts, null, null);
 
-//                SmsManager sms = SmsManager.getDefault();
-//                ArrayList<String> parts = sms.divideMessage(messageToSend);
-//                sms.sendMultipartTextMessage(number, null, parts, null, null);
                 Global_Variable.WAS_SEND_SMS = true;
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putLong(Global_Variable.TOTAL_TIME_CALL_STR, 0);
@@ -174,7 +161,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             Global_Variable.listContact_temp.remove(Global_Variable.INDEX_PHONE);
             editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
             editor.apply();
-            Log.d("YongQuan", "Wait");
+            Log.d("YongQuan", "Wait: "+ Global_Variable.TIME_CONNECT_MUNITE);
             if (Global_Variable.TIME_CONNECT_MUNITE) {
                 hesoConnect = 60;
             }
@@ -185,7 +172,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             while (true) {
                 publishProgress(1);
                 Thread.sleep(1000);
-                Log.d("YongQuan", "check current time :" + checkTime + "/" + Global_Variable.TIME_CONNECT * 60 + "  " + MainActivity.STATE_PHONE);
+                Log.d("YongQuan", "check current time :" + checkTime + "/" + Global_Variable.TIME_CONNECT * hesoConnect + "  " + MainActivity.STATE_PHONE);
 
                 checkTime += 1;
                 //chon thoi gian la phut or giay
@@ -200,17 +187,20 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
                     break;
                 } else if (MainActivity.STATE_PHONE == "idle") {
                     Log.d("YongQuan", "continue");
-                    Log.d("YongQuan","service "+Global_Variable.SERVICE_IS_START);
 //                    Thread.sleep(Global_Variable.TIME_WAITING*1000 * hesoWait);
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
                     break;
                 }
                 if (!Global_Variable.SERVICE_IS_START) {
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
 //                    Thread.sleep(Global_Variable.TIME_WAITING*1000 * hesoWait);
                     break;
                 }
 
+            }
+            if(checkTime > 55 && (checkTime < Global_Variable.TIME_CONNECT * hesoConnect)){
+
+                Thread.sleep(Global_Variable.TIME_WAITING * 1000 * hesoWait+1000);
             }
             if(check_Sucees){
                 Global_Variable.CALL_SUCCESS = sharedPreferences.getInt(Global_Variable.CALL_SUCCESS_STR, 0);

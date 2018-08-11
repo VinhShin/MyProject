@@ -77,20 +77,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean checkPermissions() {
-        int result;
-        List<String> listPermissionsNeeded = new ArrayList<>();
-        for (String p : permissions) {
-            result = ContextCompat.checkSelfPermission(this, p);
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(p);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            int result;
+            List<String> listPermissionsNeeded = new ArrayList<>();
+            for (String p : permissions) {
+                result = ContextCompat.checkSelfPermission(this, p);
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    listPermissionsNeeded.add(p);
+                }
             }
+            if (!listPermissionsNeeded.isEmpty()) {
+                ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+                return false;
+            }
+            return true;
+
+        } else{
+            return true;
         }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
-            return false;
-        }
-        permision_ok = true;
-        return true;
+
+
+
+
     }
 
     @Override
@@ -135,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Global_Variable.TIME_START = sharedPreferences.getString(Global_Variable.TIME_START_STR,"00:00");
         Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR,"23:59");
         Global_Variable.TIME_SEND_SMS = sharedPreferences.getInt(Global_Variable.TIME_SEND_SMS_STR,1);
-        Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR,1);
+        Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR,2);
         Global_Variable.WAS_SEND_SMS = sharedPreferences.getBoolean(Global_Variable.WAS_SEND_SMS_STR,false);
         Global_Variable.SMS_UNABLE = sharedPreferences.getBoolean(Global_Variable.SMS_UNABLE_STR,false);
         Global_Variable.SMS_CONTENT = sharedPreferences.getString(Global_Variable.SMS_CONTENT_STR,"");
@@ -144,8 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View src) {
         switch (src.getId()) {
             case R.id.buttonStart:
-                checkPermissions();
-                if(permision_ok) {
+                if(checkPermissions()) {
                     if (!Global_Variable.SERVICE_IS_START) {
                         if (Global_Variable.listContact != null && Global_Variable.listContact.size() > 0) {
                             Global_Variable.SERVICE_IS_START = true;
