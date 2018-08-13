@@ -219,8 +219,10 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        Global_Variable.myAsyncTask = null;
         if (Global_Variable.SERVICE_IS_START) {
-            new MyAsyncTask(contextParent).execute();
+            Global_Variable.myAsyncTask = new MyAsyncTask(contextParent);
+            Global_Variable.myAsyncTask.execute();
         }
     }
 

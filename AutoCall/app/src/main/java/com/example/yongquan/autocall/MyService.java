@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.example.yongquan.autocall.Global.Global_Variable;
 import com.example.yongquan.autocall.Model.Contact;
 
 import java.util.ArrayList;
@@ -25,12 +26,16 @@ public class MyService extends Service {
 
     @Override
     public void onStart(Intent intent, int startid) {
-        new MyAsyncTask(this).execute();
+        Global_Variable.myAsyncTask = new MyAsyncTask(this);
+        Global_Variable.myAsyncTask.execute();
     }
 
     @Override
     public void onDestroy() {
         Toast.makeText(this, "Tắt Chương Trình", Toast.LENGTH_LONG).show();
+        if(Global_Variable.myAsyncTask!=null){
+            Global_Variable.myAsyncTask.cancel(true);
+        }
     }
 
 }

@@ -2,8 +2,10 @@ package com.example.yongquan.autocall.Global;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 
 import com.example.yongquan.autocall.Model.Contact;
+import com.example.yongquan.autocall.MyAsyncTask;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class Global_Variable {
     public static int CALL_SUCCESS = 0;
     public static long TOTAL_TIME_CALL = 0;
     public static int statusIdel = 0;
+    public static MyAsyncTask myAsyncTask = null;
     //
     public static String SERVICE_IS_START_STR = "service_start";
     public static String INDEX_PHONE_STR ="indexPhone";
