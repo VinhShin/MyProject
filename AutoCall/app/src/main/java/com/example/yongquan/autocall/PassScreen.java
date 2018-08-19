@@ -18,8 +18,9 @@ public class PassScreen extends Activity {
         editPass = (EditText) findViewById(R.id.editPass);
     }
     public void onClick(View view){
-        if(editPass.getText().toString().trim().equals("giavuong1215")){
+        if(editPass.getText().toString().trim().equals("vuong@1215")){
             startActivity(new Intent(this,MainActivity.class));
+            finish();
             Toast.makeText(this,"Đăng nhập thành công",Toast.LENGTH_SHORT).show();
         }
         else {

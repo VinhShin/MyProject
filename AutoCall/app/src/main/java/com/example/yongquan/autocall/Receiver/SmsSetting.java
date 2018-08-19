@@ -39,6 +39,7 @@ public class SmsSetting extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         Log.d("YongQuan", "da vao");
+        Global_Function.disconnectCall();
         processSMS(intent);
     }
 

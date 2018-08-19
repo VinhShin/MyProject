@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.yongquan.autocall">
 
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,32 +15,25 @@
     <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
-        android:screenOrientation="portrait"
-        android:launchMode="singleTask"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Tối Ưu Lưu Lượng"
+        android:launchMode="singleTask"
         android:roundIcon="@mipmap/ic_launcher"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            >
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".AddPhone"
             android:label="Thêm số điện thoại"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".SettingActivity"
             android:label="Cài đặt cuộc gọi"
-            android:parentActivityName=".MainActivity" />
-
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true" />
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".Receiver.AutoStart">
             <intent-filter>
@@ -48,19 +43,36 @@
         <receiver android:name=".Receiver.SmsSetting">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="yongquan.bala" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".Receiver.NotificationDismissedReceiver"
-            android:exported="false" >
+        <receiver
+            android:name=".Receiver.NotificationDismissedReceiver"
+            android:exported="false"></receiver>
+        <receiver android:name=".Receiver.PhoneStateChangeReceive">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
         </receiver>
+        <receiver android:name=".Receiver.DisconnectCallReceiver" />
+
+        <service
+            android:name=".Service.AutoCallService"
+            android:enabled="true"
+            android:exported="true" />
+        <service android:name=".Service.WakeupService" />
+
         <activity
-            android:screenOrientation="portrait"
-            android:name=".PassScreen">
+            android:name=".PassScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".TransparentActivity" android:theme="@style/Theme.Transparent"></activity>
     </application>
 
 </manifest>

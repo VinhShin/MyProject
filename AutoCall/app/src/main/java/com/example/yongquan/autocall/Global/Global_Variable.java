@@ -1,8 +1,5 @@
 package com.example.yongquan.autocall.Global;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 
 import com.example.yongquan.autocall.Model.Contact;
 import com.example.yongquan.autocall.MyAsyncTask;

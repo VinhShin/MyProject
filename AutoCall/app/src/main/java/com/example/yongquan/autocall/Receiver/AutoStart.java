@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.example.yongquan.autocall.Global.Global_Function;
 import com.example.yongquan.autocall.Global.Global_Variable;
-import com.example.yongquan.autocall.MyService;
+import com.example.yongquan.autocall.Service.AutoCallService;
 
 public class AutoStart extends BroadcastReceiver {
 
@@ -19,7 +19,7 @@ public class AutoStart extends BroadcastReceiver {
         Log.d("YongQuan","Check start service: "+serviceActivated);
         if (serviceActivated) {
             Log.d("YongQuan","restart service");
-            context.startService(new Intent(context, MyService.class));
+            context.startService(new Intent(context, AutoCallService.class));
             Global_Function.sendNotification(context,"Ứng dụng đang chạy ngầm",1);
 //            Intent serviceIntent = new Intent(context, MainActivity.class);
 //            context.startService(serviceIntent);

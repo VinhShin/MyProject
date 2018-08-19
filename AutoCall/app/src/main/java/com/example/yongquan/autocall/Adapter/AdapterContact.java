@@ -7,16 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 
-import com.example.yongquan.autocall.AddPhone;
 import com.example.yongquan.autocall.Global.Global_Function;
 import com.example.yongquan.autocall.Global.Global_Variable;
-import com.example.yongquan.autocall.MainActivity;
 import com.example.yongquan.autocall.Model.Contact;
-import com.example.yongquan.autocall.MyService;
 import com.example.yongquan.autocall.R;
 
 import java.util.ArrayList;
