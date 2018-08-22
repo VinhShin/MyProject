@@ -28,6 +28,7 @@ public class Global_Variable {
     public static long TOTAL_TIME_CALL = 0;
     public static int statusIdel = 0;
     public static MyAsyncTask myAsyncTask = null;
+    public static AlarmManager alarmManager = null;
     //
     public static String SERVICE_IS_START_STR = "service_start";
     public static String INDEX_PHONE_STR ="indexPhone";

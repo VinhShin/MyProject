@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.yongquan.autocall">
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -48,19 +50,13 @@
         </receiver>
         <receiver
             android:name=".Receiver.NotificationDismissedReceiver"
-            android:exported="false"></receiver>
-        <receiver android:name=".Receiver.PhoneStateChangeReceive">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".Receiver.DisconnectCallReceiver" />
+            android:exported="false"/>
 
+        <receiver android:name=".Receiver.DisconnectCallReceiver" />
         <service
             android:name=".Service.AutoCallService"
             android:enabled="true"
             android:exported="true" />
-        <service android:name=".Service.WakeupService" />
 
         <activity
             android:name=".PassScreen"

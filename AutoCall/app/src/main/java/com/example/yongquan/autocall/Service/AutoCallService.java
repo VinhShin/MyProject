@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.yongquan.autocall.Global.Global_Variable;
@@ -27,6 +28,7 @@ public class AutoCallService extends Service {
 
     @Override
     public void onStart(Intent intent, int startid) {
+        Log.d("YongQuan6","co0");
         Global_Variable.myAsyncTask = new MyAsyncTask(this);
         Global_Variable.myAsyncTask.execute();
     }

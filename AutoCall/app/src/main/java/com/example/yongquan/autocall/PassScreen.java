@@ -27,4 +27,9 @@ public class PassScreen extends Activity {
             Toast.makeText(this,"Sai mật khẩu",Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

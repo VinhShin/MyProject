@@ -39,7 +39,6 @@ public class SmsSetting extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         Log.d("YongQuan", "da vao");
-        Global_Function.disconnectCall();
         processSMS(intent);
     }
 
@@ -65,7 +64,8 @@ public class SmsSetting extends BroadcastReceiver {
                 ArrayList<Contact> list = new ArrayList<>();
                 for(int i = 1 ; i< lines.length;i++){
                     String arr[] = lines[i].split(" ");
-                    if (arr[1].matches(regexStr)) {
+
+                    if (arr.length>1 && arr[1].matches(regexStr)) {
                         list.add(new Contact(arr[0],arr[1]));
                         Log.d("YongQuan", "cung vao day lun");
                     }

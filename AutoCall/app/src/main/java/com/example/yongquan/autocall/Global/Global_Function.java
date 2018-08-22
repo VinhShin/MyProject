@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -27,6 +28,7 @@ import java.util.Calendar;
 import static android.content.Context.ALARM_SERVICE;
 
 public class Global_Function {
+
     public static ArrayList<Contact> convertStringToArray(String str){
         if(str!="") {
             ArrayList<Contact> contact = new ArrayList<Contact>();
@@ -125,33 +127,6 @@ public class Global_Function {
             Log.e("YongQuan", "Exception object: " + e);
         }
     }
-    public static void DisconnectCall(Context context, long timeSecond){
-        Intent intent = new Intent(context, DisconnectCallReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context,
-                0, intent, 0);
-        // We want the alarm to go off 30 seconds from now.
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.add(Calendar.SECOND, timeSecond);
-        // Schedule the alarm!
-        Log.d("YongQuanCheck",timeSecond+"");
-        Log.d("YongQuanCheck",System.currentTimeMillis() +"");
-        Log.d("YongQuanCheck",System.currentTimeMillis() + timeSecond*1000+"");
-        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeSecond*1000, sender);
 
-//        Intent intent = new Intent();
-////        i.putExtra("STRING_I_NEED", strName);
-//        intent.setAction("yongquan.bala");
-//        context.sendBroadcast(intent);
-//        PendingIntent sender = PendingIntent.getBroadcast(context,
-//                0, intent, 0);
-//        // We want the alarm to go off 30 seconds from now.
-//
-//        // Schedule the alarm!
-//        AlarmManager am = (AlarmManager)context.getSystemService(ALARM_SERVICE);
-//        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ timeSecond * 1000, sender);
-
-    }
 
 }

@@ -5,29 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.icu.text.LocaleDisplayNames;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-
 import com.example.yongquan.autocall.Global.Global_Function;
 import com.example.yongquan.autocall.Global.Global_Variable;
-import com.example.yongquan.autocall.Model.Contact;
-import com.example.yongquan.autocall.Receiver.AlarmReceiver;
-
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by DELL on 7/31/2018.
@@ -53,7 +47,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
+        Log.d("YongQuan6","co");
         hesoWait = 1;
         hesoConnect = 1;
         date = new Date();
@@ -68,7 +62,6 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
         }
-        Log.d("YongQuans", "list :" + str);
 
         Global_Variable.INDEX_PHONE = sharedPreferences.getInt(Global_Variable.INDEX_PHONE_STR, 0);
         Global_Variable.TIME_CONNECT = sharedPreferences.getInt(Global_Variable.TIME_CONNECT_STR, 9);
@@ -133,7 +126,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             //qua chi ky moi
             if (Global_Variable.WAS_SEND_SMS && ((calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && Global_Variable.DAY_SEND_SMS == 8) ||
                     calendar.get(Calendar.DAY_OF_WEEK) > Global_Variable.DAY_SEND_SMS)) {
-                Log.d("YongQuana", "gui lai");
+
                 Global_Variable.WAS_SEND_SMS = false;
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
@@ -153,65 +146,63 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             return null;
         }
         try {
-            Thread.sleep(1000);
-
             //kiểm tra thêm lần nữa mắc công. haha
-            if (!Global_Variable.SERVICE_IS_START) {
-                return null;
-            }
-
-            callTo(Global_Variable.listContact_temp.get(Global_Variable.INDEX_PHONE).getPhone());
-            Log.d("YongQuans", "phone :" + Global_Variable.listContact_temp.get(Global_Variable.INDEX_PHONE).getPhone());
-            //set time endcall
+            publishProgress(1);
+//            if (!Global_Variable.SERVICE_IS_START || MainActivity.STATE_PHONE != "idle") {
+//                Log.d("YongQuan3", "continue1");
+//                Global_Function.disconnectCall();
+//                return null;
+//            }
             if (Global_Variable.TIME_CONNECT_MUNITE) {
                 hesoConnect = 60;
             }
             if (Global_Variable.TIME_WAIT_MUNITE) {
                 hesoWait = 60;
             }
-//            AlarmReceiver.getInstance().scheduleAlarm(contextParent, Global_Variable.TIME_CONNECT * hesoConnect);
-            Global_Function.DisconnectCall(contextParent,Global_Variable.TIME_CONNECT * hesoConnect);
+            if (Global_Variable.SERVICE_IS_START || MainActivity.STATE_PHONE == "idle") {
+                callTo(Global_Variable.listContact_temp.get(Global_Variable.INDEX_PHONE).getPhone());
+                Global_Variable.alarmManager.disConnectCall(contextParent,Global_Variable.TIME_CONNECT * hesoConnect);
+            }
+            //set time endcall
+
             currentTime = System.currentTimeMillis();
-            Log.d("YongQuan", "time before " + currentTime);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt(Global_Variable.INDEX_PHONE_STR, Global_Variable.INDEX_PHONE);
             Global_Variable.listContact_temp.remove(Global_Variable.INDEX_PHONE);
             editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
             editor.apply();
-            Log.d("YongQuan", "Wait: " + Global_Variable.TIME_CONNECT_MUNITE);
+            Log.d("YongQuan6","co2");
 
-            boolean check_Sucees = false;
+
             checkTime = 0;
             while (true) {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
                 Log.d("YongQuan", "check current time :" + checkTime + "/" + Global_Variable.TIME_CONNECT * hesoConnect);
-                checkTime += 1;
-                if(checkTime%10==0){
-                    publishProgress(1);
-                }
+                checkTime += 5;
+                publishProgress(1);
+//                if(checkTime%10==0){
+//                    publishProgress(10);
+//                }
                 if (MainActivity.STATE_PHONE == "idle") {
-                    Log.d("YongQuans", "continue1");
-                    //                    Thread.sleep(Global_Variable.TIME_WAITING*1000 * hesoWait);
-                    Thread.sleep(5000);
+                    Log.d("YongQuan3", "continue2");
+                    Thread.sleep(Global_Variable.TIME_WAITING*1000 * hesoWait + 2000);
                     break;
                 }
                 if (!Global_Variable.SERVICE_IS_START) {
-                    Thread.sleep(5000);
+                    Thread.sleep(6000);
                     break;
                 }
-
-
+                if(checkTime > Global_Variable.TIME_CONNECT * hesoConnect){
+                    Thread.sleep(Global_Variable.TIME_WAITING*1000 * hesoWait + 2000);
+                    break;
+                }
             }
-            if (checkTime > 55 && (checkTime < Global_Variable.TIME_CONNECT * hesoConnect)) {
 
+            if (checkTime > 55 && (checkTime < Global_Variable.TIME_CONNECT * hesoConnect)) {
                 Thread.sleep(Global_Variable.TIME_WAITING * 1000 * hesoWait + 1000);
             }
-            Log.d("YongQuan", "time before " + System.currentTimeMillis());
+
             if (System.currentTimeMillis() - currentTime > 45000) {
-                Log.d("YongQuan", "call success");
-                check_Sucees = true;
-            }
-            if (check_Sucees) {
                 Global_Variable.CALL_SUCCESS = sharedPreferences.getInt(Global_Variable.CALL_SUCCESS_STR, 0);
                 Global_Variable.CALL_SUCCESS++;
                 editor.putInt(Global_Variable.CALL_SUCCESS_STR, Global_Variable.CALL_SUCCESS);
@@ -232,6 +223,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        Global_Variable.alarmManager.cancelAlarm();
         Global_Variable.myAsyncTask = null;
         if (Global_Variable.SERVICE_IS_START) {
             Global_Variable.myAsyncTask = new MyAsyncTask(contextParent);
@@ -240,14 +232,23 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     }
     @Override
     protected void onProgressUpdate(Integer... values) {
-        contextParent.startActivity(new Intent(contextParent.getApplicationContext(), MainActivity.class));
+        if(values[0] == 1) {
+            PhoneCallListener phoneListener2 = new PhoneCallListener();
+            TelephonyManager telephonyManager2 = (TelephonyManager) contextParent.getSystemService(Context.TELEPHONY_SERVICE);
+            telephonyManager2.listen(phoneListener2, PhoneStateListener.LISTEN_CALL_STATE);
+        }
+        else {
+//            Intent intent = new Intent(contextParent.getApplicationContext(), MainActivity.class);
+//            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+//            contextParent.startActivity(intent);
+        }
         super.onProgressUpdate(values);
     }
     private void callTo(String phone) {
 
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phone));
-        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        callIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         PackageManager packageManager = contextParent.getPackageManager();
         List activities = packageManager.queryIntentActivities(callIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
