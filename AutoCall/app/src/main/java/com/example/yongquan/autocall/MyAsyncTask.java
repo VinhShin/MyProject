@@ -206,8 +206,9 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
                 Global_Variable.CALL_SUCCESS = sharedPreferences.getInt(Global_Variable.CALL_SUCCESS_STR, 0);
                 Global_Variable.CALL_SUCCESS++;
                 editor.putInt(Global_Variable.CALL_SUCCESS_STR, Global_Variable.CALL_SUCCESS);
+                Global_Variable.TOTAL_TIME_CALL += (System.currentTimeMillis() - currentTime)/1000;
             }
-            Global_Variable.TOTAL_TIME_CALL += checkTime;
+
             editor.putLong(Global_Variable.TOTAL_TIME_CALL_STR, Global_Variable.TOTAL_TIME_CALL);
             editor.apply();
 
