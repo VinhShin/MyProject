@@ -38,7 +38,6 @@ public class SmsSetting extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        Log.d("YongQuan", "da vao");
         processSMS(intent);
     }
 

@@ -72,13 +72,18 @@ public class AddPhone extends AppCompatActivity {
         }
     }
     public static void setListView(ArrayList<Contact> list) {
-        if (list != null) {
-            Global_Variable.listContact.clear();
-            Global_Variable.listContact.addAll(list);
+        try {
+            if (list != null) {
+                Global_Variable.listContact.clear();
+                Global_Variable.listContact.addAll(list);
+            }
+            if (adapterContact != null) {
+                adapterContact.notifyDataSetChanged();
+            }
+        }catch (NullPointerException e){
+            Log.e("YongQuan",e.toString());
         }
-        if (adapterContact != null) {
-            adapterContact.notifyDataSetChanged();
-        }
+
     }
 
 }

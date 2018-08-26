@@ -1,31 +1,34 @@
 package com.example.yongquan.autocall.Global;
 
-import android.app.AlarmManager;
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.example.yongquan.autocall.MainActivity;
 import com.example.yongquan.autocall.Model.Contact;
-import com.example.yongquan.autocall.Receiver.DisconnectCallReceiver;
+import com.example.yongquan.autocall.PhoneCallListener;
 import com.example.yongquan.autocall.Receiver.NotificationDismissedReceiver;
 import com.example.yongquan.autocall.R;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
-import static android.content.Context.ALARM_SERVICE;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class Global_Function {
 
@@ -49,6 +52,11 @@ public class Global_Function {
             }
         }
         return null;
+    }
+    public static void SetPhoneStageListener(Context contextParent){
+        PhoneCallListener phoneListener2 = new PhoneCallListener();
+        TelephonyManager telephonyManager2 = (TelephonyManager) contextParent.getSystemService(Context.TELEPHONY_SERVICE);
+        telephonyManager2.listen(phoneListener2, PhoneStateListener.LISTEN_CALL_STATE);
     }
     public static String converStringFromArray(ArrayList<Contact> list){
         String str = "";
@@ -126,6 +134,55 @@ public class Global_Function {
                     "FATAL ERROR: could not connect to telephony subsystem");
             Log.e("YongQuan", "Exception object: " + e);
         }
+    }
+    public static void callTo(Context contextParent, String phone) {
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phone));
+        callIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+        PackageManager packageManager = contextParent.getPackageManager();
+        List activities = packageManager.queryIntentActivities(callIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        for (int j = 0; j < activities.size(); j++) {
+
+            if (activities.get(j).toString().toLowerCase().contains("com.android.phone")) {
+                callIntent.setPackage("com.android.phone");
+            } else if (activities.get(j).toString().toLowerCase().contains("call")) {
+                String pack = (activities.get(j).toString().split("[ ]")[1].split("[/]")[0]);
+                callIntent.setPackage(pack);
+            }
+        }
+
+        if (ActivityCompat.checkSelfPermission(contextParent, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        contextParent.startActivity(callIntent);
+
+    }
+    public static void addTimeToTal(Context context) {
+        SharedPreferences sharedPreferences;
+        sharedPreferences = context.getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        long totalTime = sharedPreferences.getLong(Global_Variable.TOTAL_TIME_TEMP_STR, 0);
+        Log.d("YongQuan","Add total time : "+totalTime);
+        if (totalTime > 45) {
+            Global_Variable.CALL_SUCCESS = sharedPreferences.getInt(Global_Variable.CALL_SUCCESS_STR, 0);
+            Global_Variable.CALL_SUCCESS++;
+            editor.putInt(Global_Variable.CALL_SUCCESS_STR, Global_Variable.CALL_SUCCESS);
+        }
+        Global_Variable.TOTAL_TIME_CALL = sharedPreferences.getLong(Global_Variable.TOTAL_TIME_CALL_STR,0);
+        editor.putLong(Global_Variable.TOTAL_TIME_CALL_STR, Global_Variable.TOTAL_TIME_CALL+totalTime);
+        //RESET LAI
+        editor.putLong(Global_Variable.TOTAL_TIME_TEMP_STR, 0);
+
+        editor.apply();
     }
 
 

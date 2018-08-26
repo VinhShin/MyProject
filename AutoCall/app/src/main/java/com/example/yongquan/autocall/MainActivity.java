@@ -1,14 +1,12 @@
 package com.example.yongquan.autocall;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.PowerManager;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,16 +22,13 @@ import com.example.yongquan.autocall.Global.AlarmManager;
 import com.example.yongquan.autocall.Global.Global_Function;
 import com.example.yongquan.autocall.Global.Global_Variable;
 import com.example.yongquan.autocall.Model.Contact;
-import com.example.yongquan.autocall.Service.AutoCallService;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.yongquan.autocall.Global.Global_Variable.alarmManager;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public static String STATE_PHONE = "";
     public final int MULTIPLE_PERMISSIONS = 10;
     public static String[] permissions = new String[]{
             Manifest.permission.CALL_PHONE,
@@ -125,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init(){
-
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakelockTag");
 
@@ -150,9 +144,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void reStartService(){
         Log.d("YongQuan5","onCreate");
-        if (Global_Variable.SERVICE_IS_START && Global_Variable.myAsyncTask==null) {
-            Global_Variable.alarmManager = new AlarmManager(getApplicationContext());
-            startService(new Intent(this, AutoCallService.class));
+        if (Global_Variable.SERVICE_IS_START&&AlarmManager.isLive()) {
+            AlarmManager.cancelAlarm();
+            AlarmManager.actionCall(getApplicationContext(),1);
             Log.d("YongQuan5","Restart. yeyeyey");
         }
     }
@@ -163,14 +157,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (!Global_Variable.SERVICE_IS_START) {
                         if (Global_Variable.listContact != null && Global_Variable.listContact.size() > 0) {
                             wakeLock.acquire();
-                            Global_Variable.alarmManager = new AlarmManager(getApplicationContext());
+
                             Global_Variable.SERVICE_IS_START = true;
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);
                             //tao list moi de goi random
                             editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact));
                             editor.apply();
-                            startService(new Intent(this, AutoCallService.class));
+                            AlarmManager.actionCall(getApplicationContext(),2);
                             buttonStart.setText("Tắt Chương Trình");
                             Toast.makeText(this, "Chạy Chương Trình", Toast.LENGTH_LONG).show();
                             Global_Function.sendNotification(this,"Ứng dụng đang chạy ngầm",1);
@@ -181,6 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(wakeLock!=null && wakeLock.isHeld()){
                             wakeLock.release();
                         }
+                        AlarmManager.cancelAlarm();
+                        if(Global_Variable.childrenAlarmManager!=null) {
+                            Global_Variable.childrenAlarmManager.cancelAlarm();
+                        }
                         Global_Variable.SERVICE_IS_START = false;
                         Global_Variable.WAS_SEND_SMS = false;
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -188,8 +186,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         editor.putBoolean(Global_Variable.WAS_SEND_SMS_STR, Global_Variable.WAS_SEND_SMS);
                         editor.remove("contact_t");
                         editor.apply();
-
-                        stopService(new Intent(this, AutoCallService.class));
                         buttonStart.setText("Chạy Chương Trình");
                         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.cancel(1);

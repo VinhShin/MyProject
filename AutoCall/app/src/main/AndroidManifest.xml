@@ -52,12 +52,8 @@
             android:name=".Receiver.NotificationDismissedReceiver"
             android:exported="false"/>
 
-        <receiver android:name=".Receiver.DisconnectCallReceiver" />
-        <service
-            android:name=".Service.AutoCallService"
-            android:enabled="true"
-            android:exported="true" />
-
+        <receiver android:name=".Receiver.AlarmReceiver" />
+        <receiver android:name=".Receiver.ChildrenAlarmReceiver" />
         <activity
             android:name=".PassScreen"
             android:screenOrientation="portrait">

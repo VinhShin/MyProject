@@ -11,6 +11,7 @@ public class Global_Variable {
     public static ArrayList<Contact> listContact_temp;
     public static ArrayList<Contact> listContact;
     public static boolean SERVICE_IS_START = false;
+    public static String STATE_PHONE = "idle";
     public static int INDEX_PHONE = 0;
     public static int TIME_CONNECT = 0;
     public static int TIME_WAITING = 0;
@@ -28,7 +29,13 @@ public class Global_Variable {
     public static long TOTAL_TIME_CALL = 0;
     public static int statusIdel = 0;
     public static MyAsyncTask myAsyncTask = null;
-    public static AlarmManager alarmManager = null;
+//    public static AlarmManager alarmManager = null;
+    public static ChildrenAlarmManager childrenAlarmManager = null;
+    public static String ACTION_CALL = "action_call";
+    public static String ACTION_DISCONNECT = "action_disconnect";
+    public static int TIME_DISTANCE_CHECK = 5;
+    public static long TOTAL_TIME_TEMP = 0;
+
     //
     public static String SERVICE_IS_START_STR = "service_start";
     public static String INDEX_PHONE_STR ="indexPhone";
@@ -46,6 +53,6 @@ public class Global_Variable {
     public static String SMS_SENDTO_STR = "sms_sendto";
     public static String CALL_SUCCESS_STR = "call_success";
     public static String TOTAL_TIME_CALL_STR = "total_time_call";
-
+    public static String TOTAL_TIME_TEMP_STR = "total_time_temp";
 
 }
