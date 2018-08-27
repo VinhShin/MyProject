@@ -144,10 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void reStartService(){
         Log.d("YongQuan5","onCreate");
-        if (Global_Variable.SERVICE_IS_START&&AlarmManager.isLive()) {
-            AlarmManager.cancelAlarm();
+        if (Global_Variable.SERVICE_IS_START&&!AlarmManager.isLive()) {
             AlarmManager.actionCall(getApplicationContext(),1);
-            Log.d("YongQuan5","Restart. yeyeyey");
         }
     }
     public void onClick(View src) {
