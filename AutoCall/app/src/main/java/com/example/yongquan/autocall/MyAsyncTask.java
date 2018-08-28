@@ -35,7 +35,6 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     SharedPreferences sharedPreferences;
     int TIME_START = 0;
     int TIME_END = 0;
-    long currentTime = 0;
     Date date; // given date
     Calendar calendar;
 
@@ -129,9 +128,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
                 calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) > TIME_END) {
             return null;
         }
-        Log.d("YongQuan", "-_-");
         if (Global_Variable.SERVICE_IS_START && Global_Variable.STATE_PHONE == "idle") {
-            Log.d("YongQuan", "=))");
             Global_Function.callTo(contextParent, Global_Variable.listContact_temp.get(Global_Variable.INDEX_PHONE).getPhone());
         }
         SharedPreferences.Editor editor = sharedPreferences.edit();

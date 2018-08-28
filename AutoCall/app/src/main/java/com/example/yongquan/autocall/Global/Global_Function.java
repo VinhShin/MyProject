@@ -24,6 +24,7 @@ import com.example.yongquan.autocall.PhoneCallListener;
 import com.example.yongquan.autocall.Receiver.NotificationDismissedReceiver;
 import com.example.yongquan.autocall.R;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +136,7 @@ public class Global_Function {
             Log.e("YongQuan", "Exception object: " + e);
         }
     }
-    public static void callTo(Context contextParent, String phone) {
+    public static void callTo(Context contextParent, String phone){
 
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phone));
@@ -146,9 +147,21 @@ public class Global_Function {
         for (int j = 0; j < activities.size(); j++) {
 
             if (activities.get(j).toString().toLowerCase().contains("com.android.phone")) {
+                try {
+                    Log.d("aa","s");
+                    Runtime.getRuntime().exec("pm clear com.android.phone");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 callIntent.setPackage("com.android.phone");
             } else if (activities.get(j).toString().toLowerCase().contains("call")) {
                 String pack = (activities.get(j).toString().split("[ ]")[1].split("[/]")[0]);
+                try {
+                    Log.d("aa",pack);
+                    Runtime.getRuntime().exec("pm clear "+pack);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 callIntent.setPackage(pack);
             }
         }
