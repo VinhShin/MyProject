@@ -15,15 +15,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yongquan.autocall.Global.AlarmManager;
+import com.example.yongquan.autocall.Global.ChildrenAlarmManager;
 import com.example.yongquan.autocall.Global.Global_Function;
 import com.example.yongquan.autocall.Global.Global_Variable;
+import com.example.yongquan.autocall.Global.MyAsyncTaskDisConnect;
 import com.example.yongquan.autocall.Model.Contact;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,15 +63,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             buttonStart.setText("Chạy Chương Trình");
         }
-
         if(Global_Variable.listContact==null){
             Global_Variable.listContact =new ArrayList<Contact>();
         }
-
         reStartService();
 
     }
-
     private boolean checkPermissions() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
             int result;
@@ -141,11 +137,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Global_Variable.SMS_UNABLE = sharedPreferences.getBoolean(Global_Variable.SMS_UNABLE_STR,false);
         Global_Variable.SMS_CONTENT = sharedPreferences.getString(Global_Variable.SMS_CONTENT_STR,"");
         Global_Variable.SMS_SENDTO = sharedPreferences.getString(Global_Variable.SMS_SENDTO_STR,"");
+        //reset
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(Global_Variable.TOTAL_TIME_TEMP_STR, 0);
+        editor.apply();
     }
     private void reStartService(){
-        Log.d("YongQuan5","onCreate");
-        if (Global_Variable.SERVICE_IS_START&&!AlarmManager.isLive()) {
-            AlarmManager.actionCall(getApplicationContext(),1);
+        if (Global_Variable.SERVICE_IS_START) {
+            Global_Function.disconnectCall();
+            AlarmManager.cancelAlarm();
+            AlarmManager.actionCall(getApplicationContext(),3);
+            ChildrenAlarmManager.cancelAlarm();
         }
     }
     public void onClick(View src) {
@@ -161,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             editor.putBoolean(Global_Variable.SERVICE_IS_START_STR, Global_Variable.SERVICE_IS_START);
                             //tao list moi de goi random
                             editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact));
+
                             editor.apply();
                             AlarmManager.actionCall(getApplicationContext(),2);
                             buttonStart.setText("Tắt Chương Trình");
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             wakeLock.release();
                         }
                         AlarmManager.cancelAlarm();
+                        new MyAsyncTaskDisConnect().execute();
                         if(Global_Variable.childrenAlarmManager!=null) {
                             Global_Variable.childrenAlarmManager.cancelAlarm();
                         }
@@ -187,8 +191,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         buttonStart.setText("Chạy Chương Trình");
                         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.cancel(1);
-                        Global_Function.disconnectCall();
-
                     }
                 }
                 break;

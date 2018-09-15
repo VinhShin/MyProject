@@ -1,17 +1,23 @@
 package com.example.yongquan.autocall.Global;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Binder;
+
 import com.example.yongquan.autocall.Model.Contact;
-import com.example.yongquan.autocall.MyAsyncTask;
+import com.example.yongquan.autocall.PhoneCallListener;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 public class Global_Variable {
 
     public static ArrayList<Contact> listContact_temp;
     public static ArrayList<Contact> listContact;
     public static boolean SERVICE_IS_START = false;
-    public static String STATE_PHONE = "idle";
+    public static String STATE_PHONE = "offhook";
     public static int INDEX_PHONE = 0;
     public static int TIME_CONNECT = 0;
     public static int TIME_WAITING = 0;
@@ -28,13 +34,20 @@ public class Global_Variable {
     public static int CALL_SUCCESS = 0;
     public static long TOTAL_TIME_CALL = 0;
     public static int statusIdel = 0;
-    public static MyAsyncTask myAsyncTask = null;
-//    public static AlarmManager alarmManager = null;
     public static ChildrenAlarmManager childrenAlarmManager = null;
     public static String ACTION_CALL = "action_call";
     public static String ACTION_DISCONNECT = "action_disconnect";
-    public static int TIME_DISTANCE_CHECK = 5;
+    public static int TIME_DISTANCE_CHECK = 10;
     public static long TOTAL_TIME_TEMP = 0;
+    public static Date date = null;
+    public static Random random = null;
+    public static Intent callIntent = null;
+    public static PhoneCallListener phoneListener2 = null;
+    public static Intent receiverIntentDisCC = null;
+    public static Intent receiverIntentCall = null;
+    public static Binder tmpBinder = null;
+    public static Intent receiverIntentChild = null;
+    public static SharedPreferences sharedPreferences = null;
 
     //
     public static String SERVICE_IS_START_STR = "service_start";

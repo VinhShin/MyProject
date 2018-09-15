@@ -11,14 +11,18 @@ import static android.content.Context.ALARM_SERVICE;
 
 public class ChildrenAlarmManager {
 
-    PendingIntent sender;
-    android.app.AlarmManager alarmManager;
+    private static PendingIntent sender;
+    private static android.app.AlarmManager alarmManager;
     public ChildrenAlarmManager(){}
 
-    public void actionCheckCall(Context context, long timeSecond){
-        Intent receiverIntent = new Intent(context, ChildrenAlarmReceiver.class);
-        sender = PendingIntent.getBroadcast(context, 123456789, receiverIntent, 0);
-        alarmManager = (android.app.AlarmManager)context.getSystemService(ALARM_SERVICE);
+    public static void actionCheckCall(Context context, long timeSecond){
+        if(Global_Variable.receiverIntentChild==null) {
+            Global_Variable.receiverIntentChild = new Intent(context, ChildrenAlarmReceiver.class);
+        }
+        if(sender==null) {
+            sender = PendingIntent.getBroadcast(context, 123456789,Global_Variable.receiverIntentChild, 0);
+            alarmManager = (android.app.AlarmManager) context.getSystemService(ALARM_SERVICE);
+        }
         cancelAlarm();
         if (android.os.Build.VERSION.SDK_INT >= 19) {
             alarmManager.setExact (android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+timeSecond * 1000, sender);
@@ -27,7 +31,7 @@ public class ChildrenAlarmManager {
         }
     }
 
-    public void cancelAlarm(){
+    public static void cancelAlarm(){
         if(alarmManager!=null && sender!=null) {
             alarmManager.cancel(sender);
         }

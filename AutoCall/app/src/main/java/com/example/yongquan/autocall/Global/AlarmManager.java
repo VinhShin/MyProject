@@ -16,23 +16,31 @@ public class AlarmManager {
     public AlarmManager(){}
 
     public static void actionCall(Context context, long timeSecond){
-        Log.d("YongQuan1","action call");
-        cancelAlarm();
-        Intent receiverIntent = new Intent(context, AlarmReceiver.class);
-        receiverIntent.setAction(Global_Variable.ACTION_CALL);
-        sender = PendingIntent.getBroadcast(context, 123456789, receiverIntent, 0);
-        alarmManager = (android.app.AlarmManager)context.getSystemService(ALARM_SERVICE);
-        if (android.os.Build.VERSION.SDK_INT >= 19) {
-            alarmManager.setExact (android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+timeSecond * 1000, sender);
-        } else {
-            alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+timeSecond * 1000, sender);
+        try {
+            if(Global_Variable.receiverIntentCall==null) {
+                Global_Variable.receiverIntentCall = new Intent(context, AlarmReceiver.class);
+                Global_Variable.receiverIntentCall.setAction(Global_Variable.ACTION_CALL);
+            }
+            sender = PendingIntent.getBroadcast(context, 123456789, Global_Variable.receiverIntentCall, 0);
+            alarmManager = (android.app.AlarmManager) context.getSystemService(ALARM_SERVICE);
+            cancelAlarm();
+            if (android.os.Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeSecond * 1000, sender);
+            } else {
+                alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + timeSecond * 1000, sender);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+//            Global_Function.appendLog("day:" +e.toString()+" \n");
         }
 
     }
     public static void disConnectCall(Context context, long timeSecond){
-        Intent receiverIntent = new Intent(context, AlarmReceiver.class);
-        receiverIntent.setAction(Global_Variable.ACTION_DISCONNECT);
-        sender = PendingIntent.getBroadcast(context, 123456789, receiverIntent, 0);
+        if(Global_Variable.receiverIntentDisCC==null) {
+            Global_Variable.receiverIntentDisCC = new Intent(context, AlarmReceiver.class);
+            Global_Variable.receiverIntentDisCC.setAction(Global_Variable.ACTION_DISCONNECT);
+        }
+        sender = PendingIntent.getBroadcast(context, 123456789, Global_Variable.receiverIntentDisCC, 0);
         alarmManager = (android.app.AlarmManager)context.getSystemService(ALARM_SERVICE);
 
         if (android.os.Build.VERSION.SDK_INT >= 19) {
@@ -40,17 +48,12 @@ public class AlarmManager {
         } else {
             alarmManager.set(android.app.AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+timeSecond * 1000, sender);
         }
-        Log.d("YongQuan2","start");
-        Log.d("YongQuan2",timeSecond+"");
 
     }
     public static void cancelAlarm(){
         if(alarmManager!=null && sender!=null) {
-            Global_Function.disconnectCall();
             alarmManager.cancel(sender);
+            ChildrenAlarmManager.cancelAlarm();
         }
-    }
-    public static boolean isLive(){
-        return alarmManager!=null;
     }
 }
