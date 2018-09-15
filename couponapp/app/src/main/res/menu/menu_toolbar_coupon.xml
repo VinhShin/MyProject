@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/tb_food"
+        android:title="food"
+        android:icon="@drawable/ic_food"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/tb_beaty"
+        android:title="beaty"
+        android:icon="@drawable/ic_beauty"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/tb_fashion"
+        android:title="fashion"
+        android:icon="@drawable/ic_fashion"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/tb_life"
+        android:title="lift"
+        android:icon="@drawable/ic_life"
+        app:showAsAction="always" />
+</menu>

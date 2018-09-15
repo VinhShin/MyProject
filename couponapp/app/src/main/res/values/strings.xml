@@ -1,0 +1,17 @@
+<resources>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">FOLKJOECOUPON</string>
+    <string name="title_toolbar_coupon">北上</string>
+    <string name="title_content">
+        FOLKJOEクーポンは有料会員限定（月額/n
+        300円）のクーポンアプリです。ご利用には/n
+        PayPalでの月額支払い設定が必要です。利/n
+        用規約を読み同意の上、下記ボタンより有/n
+        料会員登録をお願いします。
+    </string>
+    <string name="term_and_user">利用規約を読む</string>
+    <string name="accept_term_and_user">利用規約に同意する</string>
+    <string name="register">有料会員登録をする</string>
+    <string name="splash_screen_title">Bala bala bala</string>
+</resources>

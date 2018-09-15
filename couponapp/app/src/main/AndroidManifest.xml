@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.yongquan.couponapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="25.3.1"
+            tools:replace="android:value" />
+
+        <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".AccountRegistration.RegisterActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SplashScreen.SplashScreen">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".Location.LocationActivity" />
+        <activity android:name=".ListCoupon.ListCouponActivity" />
+        <activity android:name=".CouponDetail.CouponDetailActivity" />
+        <activity android:name=".CouponBeUsed.CouponBeUsedActivity" />
+         <activity android:name=".demo.Dialog.CircleActivity">
+
+         </activity>
+        <activity android:name=".DialogCoupon"></activity>
+    </application>
+
+</manifest>
