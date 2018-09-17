@@ -8,4 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
     </android.support.v7.widget.Toolbar>
+    <TextView
+        android:background="@color/edt_focused"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 </LinearLayout>

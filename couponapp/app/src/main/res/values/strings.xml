@@ -13,5 +13,7 @@
     <string name="term_and_user">利用規約を読む</string>
     <string name="accept_term_and_user">利用規約に同意する</string>
     <string name="register">有料会員登録をする</string>
-    <string name="splash_screen_title">Bala bala bala</string>
+    <string name="splash_screen_title">FOLKJOE\nCOUPON</string>
+    <string name="hint_search">店舗名検索</string>
+    <string name="close_dialog">今は利用しない</string>
 </resources>

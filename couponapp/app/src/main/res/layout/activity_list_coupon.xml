@@ -16,7 +16,8 @@
         android:layout_height="50dp"/>
     <android.support.v7.widget.RecyclerView
         android:layout_below="@id/toolbar_coupon"
-        android:padding="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:id="@+id/rv_coupon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

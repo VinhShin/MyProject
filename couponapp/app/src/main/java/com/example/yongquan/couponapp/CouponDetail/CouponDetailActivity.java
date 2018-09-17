@@ -8,8 +8,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.yongquan.couponapp.Dialog.CouponDialog;
 import com.example.yongquan.couponapp.R;
-import com.example.yongquan.couponapp.demo.Dialog.CouponDialog;
 
 public class CouponDetailActivity extends AppCompatActivity {
 

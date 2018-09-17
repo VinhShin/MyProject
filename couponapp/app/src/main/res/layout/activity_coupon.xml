@@ -7,12 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.yongquan.couponapp.CouponDetail.CouponDetailActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"></android.support.v7.widget.Toolbar>
-
+    <include layout="@layout/toolbar"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

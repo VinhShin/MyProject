@@ -5,10 +5,9 @@
     android:background="@drawable/border_view"
     android:dividerHeight="1px"
     android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     >
     <TextView
+        android:textColor="@color/edt_focused"
         android:layout_centerVertical="true"
         android:id="@+id/txt_name1"
         android:padding="10dp"
@@ -16,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="@color/colorBlack1"
         android:layout_centerVertical="true"
         android:id="@+id/txt_name2"
         android:layout_toRightOf="@id/txt_name1"
@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:textColor="@color/edt_focused"
         android:layout_centerVertical="true"
         android:id="@+id/txt_count"
         android:layout_gravity="right"
