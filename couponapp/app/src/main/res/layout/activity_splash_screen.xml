@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.yongquan.couponapp.SplashScreen.SplashScreen">
+    tools:context=".Activity.SplashScreen.SplashScreen">
 
     <TextView
-        android:textColor="@color/edt_focused"
-        android:textSize="40sp"
+        android:textSize="34sp"
         android:text="@string/splash_screen_title"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"

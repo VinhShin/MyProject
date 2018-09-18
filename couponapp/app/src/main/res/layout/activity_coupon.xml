@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.yongquan.couponapp.CouponDetail.CouponDetailActivity">
+    tools:context=".Activity.CouponDetail.CouponDetailActivity">
 
     <include layout="@layout/toolbar"/>
     <RelativeLayout
@@ -37,11 +37,13 @@
                 android:background="@color/edt_focused" />
 
             <TextView
+                android:id="@+id/txt_condition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="bala bala bala bala bala bla" />
 
             <TextView
+                android:id="@+id/txt_percentage_off"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -75,24 +77,24 @@
             android:text="bala bala bala bala bala bala bala bala" />
 
         <TextView
-            android:id="@+id/txt_open"
+            android:id="@+id/txt_time_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_shop_info_content"
             android:text="OPEN 11:00 ~ 19:30" />
 
         <TextView
-            android:id="@+id/txt_close"
+            android:id="@+id/txt_time_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txt_open"
+            android:layout_below="@id/txt_time_open"
             android:text="CLOSE bala" />
 
         <TextView
             android:id="@+id/txt_tell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txt_close"
+            android:layout_below="@id/txt_time_close"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
             android:text="TEL 0197-72-7676"

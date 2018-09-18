@@ -1,51 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?><!-- A CardView that contains a TextView -->
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
-    android:layout_margin="5dp"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:background="@color/edt_focused"
-    card_view:cardUseCompatPadding="true"
-    app:cardCornerRadius="4dp">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/rl_group_coupon"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:background="@color/edt_focused"
+        app:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/image"
+        <LinearLayout
+            android:id="@+id/rl_group_coupon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:scaleType="centerInside" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txt_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/image"
-            android:layout_centerHorizontal="true"
-            android:background="@color/edt_focused" />
+            <ImageView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerInside" />
 
-        <TextView
-            android:id="@+id/txt_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_line"
-            android:layout_centerHorizontal="true"
-            android:text="balbala" />
-        <TextView
-            android:textAlignment="center"
-            android:text="50%"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/yellow" />
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/txt_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/image"
+                android:layout_centerHorizontal="true"
+                android:background="@color/edt_focused" />
+
+            <TextView
+                android:textSize="12sp"
+                android:id="@+id/txt_condition"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/txt_line"
+                android:layout_centerHorizontal="true"
+                android:text="balbala" />
+
+            <TextView
+                android:id="@+id/txt_percentage_off"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/yellow"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <!--<TextView-->
+        <!--android:visibility="visible"-->
+        <!--android:background="@color/edt_focused"-->
+        <!--android:alpha="0.5"-->
+        <!--android:id="@+id/txt_disable"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+</RelativeLayout>
 
