@@ -275,59 +275,6 @@ public class Global_Function {
 //
 //    }
 
-    public static void generateCall(Context context) {
-        Log.d("YongQuan","be call");
-        try {
-            if (Global_Variable.date == null) {
-                Global_Variable.date = new Date();
-            }
-            Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTime(Global_Variable.date);
-            SharedPreferences sharedPreferences = context.getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            String str = sharedPreferences.getString("contact_t", "");
-            Global_Variable.listContact_temp = Global_Function.convertStringToArray(str);
-
-            if (Global_Variable.listContact_temp == null) {
-                str = sharedPreferences.getString("contact", "");
-                Global_Variable.listContact_temp = Global_Function.convertStringToArray(str);
-                editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
-            }
-            Global_Variable.INDEX_PHONE = sharedPreferences.getInt(Global_Variable.INDEX_PHONE_STR, 0);
-            Global_Variable.TIME_START = sharedPreferences.getString(Global_Variable.TIME_START_STR, "00:00");
-            Global_Variable.TIME_END = sharedPreferences.getString(Global_Variable.TIME_END_STR, "23:59");
-            Global_Variable.SMS_UNABLE = sharedPreferences.getBoolean(Global_Variable.SMS_UNABLE_STR, false);
-            Global_Variable.SERVICE_IS_START = sharedPreferences.getBoolean(Global_Variable.SERVICE_IS_START_STR, false);
-            if (Global_Variable.SMS_UNABLE) {
-                checkSendSMS(sharedPreferences, calendar);
-            }
-            int TIME_START = (Integer.valueOf(Global_Variable.TIME_START.split(":")[0])) * 60 + (Integer.valueOf(Global_Variable.TIME_START.split(":")[1]));
-            int TIME_END = (Integer.valueOf(Global_Variable.TIME_END.split(":")[0])) * 60 + (Integer.valueOf(Global_Variable.TIME_END.split(":")[1]));
-
-            if (Global_Variable.random == null) {
-                Global_Variable.random = new Random();
-            }
-            Global_Variable.INDEX_PHONE = Global_Variable.random.nextInt(Global_Variable.listContact_temp.size());
-
-            if (!Global_Variable.SERVICE_IS_START || TIME_START == TIME_END ||
-                    TIME_START > TIME_END ||
-                    calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) < TIME_START ||
-                    calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) > TIME_END) {
-                return;
-            }
-
-            callTo(context, Global_Variable.listContact_temp.get(Global_Variable.INDEX_PHONE).getPhone());
-            editor.putInt(Global_Variable.INDEX_PHONE_STR, Global_Variable.INDEX_PHONE);
-            Global_Variable.listContact_temp.remove(Global_Variable.INDEX_PHONE);
-            editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
-            editor.apply();
-        } catch (Exception e) {
-//            e.printStackTrace();
-//            appendLog("hy: "+e.getMessage().toString() + " \n");
-        }
-
-    }
-
     public static void checkSendSMS(SharedPreferences sharedPreferences, Calendar calendar) {
         Global_Variable.TIME_SEND_SMS = sharedPreferences.getInt(Global_Variable.TIME_SEND_SMS_STR, 7);
         Global_Variable.DAY_SEND_SMS = sharedPreferences.getInt(Global_Variable.DAY_SEND_SMS_STR, 7);

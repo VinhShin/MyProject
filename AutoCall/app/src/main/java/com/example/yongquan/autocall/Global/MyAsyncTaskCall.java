@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class MyAsyncTaskCall extends AsyncTask<Void, Integer, Void> {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 String str = sharedPreferences.getString("contact_t", "");
                 Global_Variable.listContact_temp = Global_Function.convertStringToArray(str);
-
                 if (Global_Variable.listContact_temp == null) {
                     str = sharedPreferences.getString("contact", "");
                     Global_Variable.listContact_temp = Global_Function.convertStringToArray(str);
@@ -65,19 +65,19 @@ public class MyAsyncTaskCall extends AsyncTask<Void, Integer, Void> {
                 }
                 //call
                 String phone =  Global_Variable.listContact_temp.get(Global_Variable.INDEX_PHONE).getPhone();
+                editor.putInt(Global_Variable.INDEX_PHONE_STR, Global_Variable.INDEX_PHONE);
+                Global_Variable.listContact_temp.remove(Global_Variable.INDEX_PHONE);
+                editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
+                editor.apply();
                 if (Global_Variable.callIntent == null) {
                     Global_Variable.callIntent = new Intent(Intent.ACTION_CALL);
-                    Global_Variable.callIntent.setData(Uri.parse("tel:" + phone));
-                    Global_Variable.callIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 }
+                Global_Variable.callIntent.setData(Uri.parse("tel:" + phone));
+                Global_Variable.callIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(Global_Variable.callIntent);
 
-
 //                callTo(context, Global_Variable.listContact_temp.get(Global_Variable.INDEX_PHONE).getPhone());
-                    editor.putInt(Global_Variable.INDEX_PHONE_STR, Global_Variable.INDEX_PHONE);
-                    Global_Variable.listContact_temp.remove(Global_Variable.INDEX_PHONE);
-                    editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact_temp));
-                    editor.apply();
+
             } catch (Exception e) {
                 e.printStackTrace();
 //                appendLog("hy: "+e.getMessage().toString() + " \n");

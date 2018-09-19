@@ -18,6 +18,7 @@ public class ChildrenAlarmManager {
     public static void actionCheckCall(Context context, long timeSecond){
         if(Global_Variable.receiverIntentChild==null) {
             Global_Variable.receiverIntentChild = new Intent(context, ChildrenAlarmReceiver.class);
+            Global_Variable.receiverIntentChild.setAction(Global_Variable.ACTION_CALL);
         }
         if(sender==null) {
             sender = PendingIntent.getBroadcast(context, 123456789,Global_Variable.receiverIntentChild, 0);

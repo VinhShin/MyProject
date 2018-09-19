@@ -71,11 +71,11 @@ public class SmsSetting extends WakefulBroadcastReceiver {
 
                     if (arr.length > 1 && arr[1].matches(regexStr)) {
                         list.add(new Contact(arr[0], arr[1]));
-                        Log.d("YongQuan", "cung vao day lun");
                     }
                 }
                 if (list.size() > 0) {
                     editor.putString("contact", Global_Function.converStringFromArray(list));
+                    editor.putString("contact_t", "");
                     editor.apply();
                     AddPhone.setListView(list);
                 }
@@ -83,7 +83,6 @@ public class SmsSetting extends WakefulBroadcastReceiver {
                 for (String line : lines) {
                     isSyntaxForRegisterCourse(line, editor);
                     Log.d("YongQuan", "l " + line);
-
                 }
                 editor.apply();
             }
