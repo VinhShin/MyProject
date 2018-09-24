@@ -34,6 +34,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content" />
        <Button
+           android:enabled="false"
            android:id="@+id/txt_login"
            android:layout_margin="20dp"
            android:text="@string/register"
