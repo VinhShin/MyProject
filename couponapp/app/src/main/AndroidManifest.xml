@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.yongquan.couponapp">
+    package="com.mobitouch.couponapp">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,37 +15,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-singleCouponModel
-            android:name="android.support.VERSION"
-            android:value="25.3.1"
-            tools:replace="android:value" />
-
-        <activity android:name=".Activity.MainActivity">
-
-        </activity>
+        <activity android:name=".Activity.MainActivity"></activity>
         <activity android:name=".Activity.AccountRegistration.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Activity.SplashScreen.SplashScreen">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Activity.Area.AreaActivity" />
+        <activity android:name=".Activity.CouponArea.AreaActivity" />
         <activity android:name=".Activity.ListCoupon.ListCouponActivity" />
         <activity android:name=".Activity.CouponDetail.CouponDetailActivity" />
         <activity android:name=".Activity.CouponBeUsed.CouponBeUsedActivity" />
-         <activity android:name=".Activity.Dialog.CircleActivity">
-
-         </activity>
-        <activity android:name=".DialogCoupon"></activity>
+        <activity android:name=".Activity.CouponAccount.AccountInfo"></activity>
     </application>
 
 </manifest>

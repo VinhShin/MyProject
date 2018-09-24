@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.ListCoupon.ListCouponActivity">
+    tools:context="com.mobitouch.couponapp.Activity.ListCoupon.ListCouponActivity">
     <include layout="@layout/toolbar"/>
     <android.support.v7.widget.Toolbar
         android:title="@string/title_toolbar_coupon"
@@ -14,11 +14,27 @@
         android:id="@+id/toolbar_coupon"
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/toolbar_coupon"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:id="@+id/rv_coupon"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiperefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_below="@id/toolbar_coupon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:id="@+id/rv_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp" />
+        </RelativeLayout>
+     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

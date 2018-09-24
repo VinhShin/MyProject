@@ -16,4 +16,7 @@
     <string name="splash_screen_title">FOLKJOE\nCOUPON</string>
     <string name="hint_search">店舗名検索</string>
     <string name="close_dialog">今は利用しない</string>
+    <string name="use_coupon_failure">Use coupon failure</string>
+    <string name="use_couon_success">Use coupon success</string>
+
 </resources>
