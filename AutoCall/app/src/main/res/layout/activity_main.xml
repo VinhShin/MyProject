@@ -35,6 +35,19 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="63dp"
         android:text="Cài Đặt" />
+
+    <TextView
+        android:id="@+id/txt_version"
+        android:textColor="#ffab00"
+        android:textStyle="bold"
+        android:textSize="23sp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/buttonStart"
+        android:text="version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_above="@id/buttonStart"
         android:orientation="vertical"

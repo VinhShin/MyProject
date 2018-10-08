@@ -14,4 +14,14 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void testTimeStart(){
+
+//        assertEquals(true,test_function.checkStart("00:00","23:59"));
+//        assertEquals(true,test_function.checkStart("00:00","23:59"));
+//        assertEquals(true,test_function.checkStart("00:00","23:59"));
+//        assertEquals(true,test_function.checkStart("00:00","23:59"));
+
+    }
 }

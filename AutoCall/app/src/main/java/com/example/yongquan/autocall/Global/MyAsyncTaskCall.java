@@ -27,9 +27,10 @@ public class MyAsyncTaskCall extends AsyncTask<Void, Integer, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                if (Global_Variable.date == null) {
-                    Global_Variable.date = new Date();
-                }
+//                if (Global_Variable.date == null) {
+//                    Global_Variable.date = new Date();
+//                }
+                Global_Variable.date = new Date();
                 Calendar calendar = GregorianCalendar.getInstance();
                 calendar.setTime(Global_Variable.date);
                 SharedPreferences sharedPreferences = context.getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
@@ -49,7 +50,8 @@ public class MyAsyncTaskCall extends AsyncTask<Void, Integer, Void> {
                 if (Global_Variable.SMS_UNABLE) {
                     checkSendSMS(sharedPreferences, calendar);
                 }
-                int TIME_START = (Integer.valueOf(Global_Variable.TIME_START.split(":")[0])) * 60 + (Integer.valueOf(Global_Variable.TIME_START.split(":")[1]));
+                int TIME_START = (Integer.valueOf(Global_Variable.TIME_START.split(":")[0])) * 60 +
+                        (Integer.valueOf(Global_Variable.TIME_START.split(":")[1]));
                 int TIME_END = (Integer.valueOf(Global_Variable.TIME_END.split(":")[0])) * 60 + (Integer.valueOf(Global_Variable.TIME_END.split(":")[1]));
 
                 if (Global_Variable.random == null) {
@@ -60,7 +62,7 @@ public class MyAsyncTaskCall extends AsyncTask<Void, Integer, Void> {
                 if (!Global_Variable.SERVICE_IS_START || TIME_START == TIME_END ||
                         TIME_START > TIME_END ||
                         calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) < TIME_START ||
-                        calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) > TIME_END) {
+                        calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) >= TIME_END) {
                     return null;
                 }
                 //call

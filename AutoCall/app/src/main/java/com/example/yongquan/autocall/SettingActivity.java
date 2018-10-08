@@ -1,7 +1,10 @@
 package com.example.yongquan.autocall;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +20,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.yongquan.autocall.Global.AlarmManager;
 import com.example.yongquan.autocall.Global.Global_Variable;
+import com.example.yongquan.autocall.Receiver.AlarmReceiver;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -25,6 +33,8 @@ public class SettingActivity extends AppCompatActivity {
     Button button;
     CheckBox checkBox_SMS;
     public static RadioButton rd_connect_munite,rd_connect_second, rd_wait_munite, rd_wait_second;
+    private int house_start;
+    private int munite_start;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,22 +146,6 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
-//        TGBD.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
 
     }
     @Override
@@ -238,6 +232,7 @@ public class SettingActivity extends AppCompatActivity {
                 Integer.valueOf(Ngay.getText().toString())<2||Integer.valueOf(Ngay.getText().toString())>8){
             return -5;
         }
+
         return 1;
     }
 }

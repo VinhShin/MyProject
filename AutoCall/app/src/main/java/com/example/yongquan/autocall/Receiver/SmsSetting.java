@@ -1,5 +1,6 @@
 package com.example.yongquan.autocall.Receiver;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import com.example.yongquan.autocall.Global.MyAsyncTaskDisConnect;
 import com.example.yongquan.autocall.Model.Contact;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static com.example.yongquan.autocall.SettingActivity.TGBD;
 import static com.example.yongquan.autocall.SettingActivity.TGC;
@@ -42,8 +45,8 @@ public class SmsSetting extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         processSMS(intent);
-
         startCall();
+
     }
 
     public void processSMS(Intent intent) {
@@ -183,13 +186,16 @@ public class SmsSetting extends WakefulBroadcastReceiver {
         return -1;
     }
     private void startCall(){
+        new MyAsyncTaskDisConnect().execute();
         Global_Variable.STATE_PHONE = "idle";
         SharedPreferences sharedPreferences = context.getSharedPreferences("YongQuan", Context.MODE_PRIVATE);
         boolean serviceActivated = sharedPreferences.getBoolean(Global_Variable.SERVICE_IS_START_STR, false);
         if (serviceActivated) {
 //            Global_Function.SetPhoneStageListener(context);
+            AlarmManager.cancelAlarm();
             AlarmManager.actionCall(context, 10);
             Global_Function.sendNotification(context, "Ứng dụng đang chạy ngầm", 1);
         }
     }
+
 }

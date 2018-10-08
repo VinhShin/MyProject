@@ -5,10 +5,10 @@ android {
     buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.example.yongquan.autocall"
-        minSdkVersion 9
+        minSdkVersion 16
         targetSdkVersion 25
-        versionCode 105
-        versionName "1.0.5"
+        versionCode 107
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

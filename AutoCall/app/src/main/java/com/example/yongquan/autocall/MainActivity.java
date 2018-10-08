@@ -2,10 +2,13 @@ package com.example.yongquan.autocall;
 
 import android.Manifest;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yongquan.autocall.Global.AlarmManager;
@@ -23,7 +27,9 @@ import com.example.yongquan.autocall.Global.Global_Function;
 import com.example.yongquan.autocall.Global.Global_Variable;
 import com.example.yongquan.autocall.Global.MyAsyncTaskDisConnect;
 import com.example.yongquan.autocall.Model.Contact;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -39,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private PowerManager.WakeLock wakeLock;
     Button buttonStart, buttonAddPhone,buttonSetting;
-
+    private TextView txtVersion;
     private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonStart = (Button) findViewById(R.id.buttonStart);
         buttonAddPhone = (Button) findViewById(R.id.buttonAddPhone);
         buttonSetting = (Button) findViewById(R.id.buttonSetting);
+        txtVersion = (TextView) findViewById(R.id.txt_version);
         buttonStart.setOnClickListener(this);
         buttonAddPhone.setOnClickListener(this);
         buttonSetting.setOnClickListener(this);
-
         if(Global_Variable.SERVICE_IS_START){
             buttonStart.setText("Tắt Chương Trình");
         }
@@ -66,6 +72,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(Global_Variable.listContact==null){
             Global_Variable.listContact =new ArrayList<Contact>();
         }
+
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            txtVersion.setText("Version : "+version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         reStartService();
 
     }
@@ -165,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             editor.putString("contact_t", Global_Function.converStringFromArray(Global_Variable.listContact));
 
                             editor.apply();
-                            AlarmManager.actionCall(getApplicationContext(),2);
+                            AlarmManager.actionCall(getApplicationContext(),3);
                             buttonStart.setText("Tắt Chương Trình");
                             Toast.makeText(this, "Chạy Chương Trình", Toast.LENGTH_LONG).show();
                             Global_Function.sendNotification(this,"Ứng dụng đang chạy ngầm",1);
